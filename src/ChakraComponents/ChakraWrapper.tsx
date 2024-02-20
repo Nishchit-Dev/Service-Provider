@@ -5,6 +5,7 @@ import BrowserRouter from "../Pages/Router.tsx";
 
 const _theme = {
   colors: {
+   
     pmy: {
       100: "#7969D6",
       200: "#6050BC",
@@ -16,8 +17,8 @@ const _theme = {
       400: "#E9E9EA",
     },
     ntl: {
-        100:"#FEFEFE",
-        200:"#E4E4E4"
+      100: "#FEFEFE",
+      200: "#E4E4E4",
     },
   },
 };

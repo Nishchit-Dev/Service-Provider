@@ -1,9 +1,14 @@
-import { Box, Center } from "@chakra-ui/react";
+import { Box, Button, Center, useColorMode } from "@chakra-ui/react";
 
-function  App() {
+function App() {
+  const { colorMode, setColorMode } = useColorMode();
   return (
     <Center h="100vh">
-      <Box w="100px" h={"100px"} bg={"black"}></Box>
+      <Box w="100px" h={"100px"}>
+        <Button onClick={setColorMode}>
+          Toggle {colorMode === "light" ? "Dark" : "Light"}
+        </Button>
+      </Box>
     </Center>
   );
 }
