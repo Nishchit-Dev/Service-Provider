@@ -14,24 +14,24 @@ let InputStyle = {
   boxShadow: "none",
   border: "transparent",
   bgColor: "snd.100",
-  fontFamily: "poppins",
+  fontFamily: "Montserrat",
 };
 const Login: React.FC = () => {
   return (
     <>
       <Center h="100vh">
-        <Center bg={"snd.400"} borderRadius={"12px"}>
+        <Center bg={"ntl.200"} borderRadius={"12px"} dropShadow={""}>
           <Flex
             direction={"column"}
             justifyContent={"center"}
             alignContent={"center"}
-            margin={"30px 10px"}
+            margin={"60px 25px"}
             padding={"10px"}
-            gap={"10px"}
+            gap={"20px"}
           >
             <Text
               textAlign={"center"}
-              fontFamily={"poppins"}
+              fontFamily={"Montserrat"}
               fontSize={"24px"}
               fontWeight={"700"}
             >
@@ -40,45 +40,47 @@ const Login: React.FC = () => {
             </Text>
 
             {/* <Box>
-              <Text fontFamily={"poppins"}>Flex</Text>
+              <Text fontFamily={"Montserrat"}>Flex</Text>
             </Box> */}
 
-            <Flex>
+            <Box dir="column">
               <Flex dir="column">
                 <Box>
-                  <Text opacity={0.7} fontFamily={"poppins"}>
+                  <Text  fontFamily={"Montserrat"}>
                     Username
                   </Text>
-                  <Input placeholder="Username" bg={"ntl.100"} style={InputStyle} />
-                </Box>
-              </Flex>
-            </Flex>
-
-            <Flex>
-              <Flex dir="column">
-                <Box>
-                  <Text opacity={0.7} fontFamily={"poppins"}>
-                    Password
-                  </Text>
-
                   <Input
-                    placeholder="password"
-                    style={InputStyle}
+                    placeholder="Username"
                     bg={"ntl.100"}
-                    type="password"
+                    style={InputStyle}
                   />
                 </Box>
               </Flex>
-            </Flex>
+          
+                <Flex dir="column">
+                  <Box>
+                    <Text fontFamily={"Montserrat"}>
+                      Password
+                    </Text>
+
+                    <Input
+                      placeholder="password"
+                      style={InputStyle}
+                      bg={"ntl.100"}
+                      type="password"
+                    />
+                  </Box>
+                </Flex>
+             
+            </Box>
 
             <Flex>
               {/* <Box> */}
               <Button
                 flex={1}
-                fontFamily={"poppins"}
+                fontFamily={"Montserrat"}
                 bg="pmy.100"
                 color={"white"}
-              
                 _hover={{ bg: "pmy.200" }}
               >
                 Login
