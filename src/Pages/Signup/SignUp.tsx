@@ -19,6 +19,7 @@ import {
 } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 let InputStyle = {
   boxShadow: "none",
   border: "transparent",
@@ -92,6 +93,28 @@ const PhoneOptions: React.FC = () => {
   );
 };
 const SignUp: React.FC = () => {
+  const LinkToSignup: React.FC = () => {
+    const RedirectToLogin = () => {
+        
+    };
+    return (
+      <Flex gap={"5px"} marginTop={"10px"}>
+        <Text fontFamily={"Poppins"} fontSize={"14px"}>
+          Already have an account?
+        </Text>
+        <Link to={"/login"}>
+          <Text
+            fontFamily={"Poppins"}
+            fontSize={"14px"}
+            color={"#4285F4"}
+            cursor={"pointer"}
+          >
+            Login
+          </Text>
+        </Link>
+      </Flex>
+    );
+  };
   return (
     <>
       <Center h="100vh" gap={"100px"}>
@@ -188,10 +211,9 @@ const SignUp: React.FC = () => {
               </Flex>
             </Flex>
 
-            <Flex marginTop={"20px"}>
+            <Flex marginTop={"20px"} flexDir={"column"}>
               {/* <Box> */}
               <Button
-                flex={1}
                 fontFamily={"Poppins"}
                 bg="pmy.100"
                 color={"white"}
@@ -199,6 +221,7 @@ const SignUp: React.FC = () => {
               >
                 Sign up
               </Button>
+                <LinkToSignup/>
               {/* </Box> */}
             </Flex>
           </Flex>
