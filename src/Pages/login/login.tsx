@@ -20,7 +20,7 @@ const Login: React.FC = () => {
   return (
     <>
       <Center h="100vh">
-        <Center borderRadius={"12px"} bg={"whitesmoke"}>
+        <Center borderRadius={"12px"} bg={"whitesmoke"} boxShadow={"xl"}>
           <Flex
             direction={"column"}
             justifyContent={"center"}
