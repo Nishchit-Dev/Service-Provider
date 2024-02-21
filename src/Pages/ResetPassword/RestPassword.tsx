@@ -4,14 +4,14 @@ import React from "react";
 let InputStyle = {
   boxShadow: "none",
   border: "transparent",
-  bgColor: "snd.100",
-  fontFamily: "Montserrat",
+  backgroundColor: "#F7F7F7",
+  fontFamily: "Poppins",
 };
 const RestPassword: React.FC = () => {
   return (
     <>
       <Center h="100vh">
-        <Center borderRadius={"12px"} bg={"whitesmoke"} boxShadow={"xl"}>
+        <Center borderRadius={"12px"} boxShadow={"2xl"}>
           <Flex
             direction={"column"}
             justifyContent={"center"}
@@ -34,7 +34,7 @@ const RestPassword: React.FC = () => {
           <Text fontFamily={"Poppins"}>Flex</Text>
         </Box> */}
 
-            <Flex flexDirection="column" gap={"10px"} w="300px">
+            <Flex flexDirection="column" gap={"10px"} w="300px" marginTop={"30px"}>
               <Flex flexDir="column" flex={1}>
                 <Text fontFamily={"Poppins"} opacity={"0.8"}>
                   New Password
@@ -42,7 +42,6 @@ const RestPassword: React.FC = () => {
                 <Input
                   placeholder="New Password"
                   color={"black"}
-                  bg={"ntl.100"}
                   style={InputStyle}
                 />
               </Flex>
@@ -56,9 +55,8 @@ const RestPassword: React.FC = () => {
                   placeholder="confirm Password"
                   style={InputStyle}
                   color={"black"}
-                  bg={"ntl.100"}
                   type="password"
-                />  
+                />
               </Flex>
             </Flex>
 

@@ -4,6 +4,7 @@ import {
   Center,
   Container,
   Flex,
+  Img,
   Input,
   Text,
   background,
@@ -13,14 +14,14 @@ import React, { ReactElement } from "react";
 let InputStyle = {
   boxShadow: "none",
   border: "transparent",
-  bgColor: "snd.100",
+  backgroundColor: "#F7F7F7",
   fontFamily: "Poppins",
 };
 const Login: React.FC = () => {
   return (
     <>
-      <Center h="100vh">
-        <Center borderRadius={"12px"} bg={"whitesmoke"} boxShadow={"xl"}>
+      <Center h="100vh" gap={"100px"}>
+        <Center borderRadius={"12px"} boxShadow={"2xl"}>
           <Flex
             direction={"column"}
             justifyContent={"center"}
@@ -43,35 +44,38 @@ const Login: React.FC = () => {
               <Text fontFamily={"Poppins"}>Flex</Text>
             </Box> */}
 
-            <Flex flexDirection ="column" gap={"10px"}>
-              <Flex dir="column">
-                <Box>
-                  <Text fontFamily={"Poppins"} opacity={"0.8"}>Username</Text>
-                  <Input
-                    placeholder="Username"
-                    color={"black"}
-                    bg={"ntl.100"}
-                    style={InputStyle}
-                  />
-                </Box>
+            <Flex
+              flexDirection="column"
+              gap={"10px"}
+              w="300px"
+              marginTop={"30px"}
+            >
+              <Flex flexDirection="column">
+                <Text fontFamily={"Poppins"} opacity={"0.8"}>
+                  Username
+                </Text>
+                <Input
+                  placeholder="Username"
+                  color={"black"}
+                  style={InputStyle}
+                />
               </Flex>
 
-              <Flex dir="column">
-                <Box>
-                  <Text fontFamily={"Poppins"} opacity={"0.8"}>Password</Text>
+              <Flex flexDirection="column" flex={1}>
+                <Text fontFamily={"Poppins"} opacity={"0.8"}>
+                  Password
+                </Text>
 
-                  <Input
-                    placeholder="password"
-                    style={InputStyle}
-                    color={"black"}
-                    bg={"ntl.100"}
-                    type="password"
-                  />
-                </Box>
+                <Input
+                  placeholder="password"
+                  style={InputStyle}
+                  color={"black"}
+                  type="password"
+                />
               </Flex>
             </Flex>
 
-            <Flex>
+            <Flex marginTop={"20px"}>
               {/* <Box> */}
               <Button
                 flex={1}
@@ -86,6 +90,9 @@ const Login: React.FC = () => {
             </Flex>
           </Flex>
         </Center>
+        {/* <Flex w="auto">
+          <Img src="/Assets/SignupRight.png" w="inherit" height={"100vh"} />
+        </Flex> */}
       </Center>
     </>
   );
