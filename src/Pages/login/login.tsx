@@ -10,6 +10,7 @@ import {
   background,
 } from "@chakra-ui/react";
 import React, { ReactElement } from "react";
+import { Link } from "react-router-dom";
 
 let InputStyle = {
   boxShadow: "none",
@@ -18,6 +19,17 @@ let InputStyle = {
   fontFamily: "Poppins",
 };
 const Login: React.FC = () => {
+  const LinkToSignup: React.FC = () => {
+    const RedirectToLogin=()=>{
+
+    }
+    return (
+      <Flex gap={"5px"} marginTop={"10px"}>
+        <Text fontFamily={"Poppins"} fontSize={"14px"}>don't have an account?</Text>
+        <Link to={"/signup"}><Text fontFamily={"Poppins"} fontSize={"14px"} color={"#4285F4"} cursor={"pointer"}>Signup</Text></Link>
+      </Flex>
+    );
+  };
   return (
     <>
       <Center h="100vh" gap={"100px"}>
@@ -75,10 +87,8 @@ const Login: React.FC = () => {
               </Flex>
             </Flex>
 
-            <Flex marginTop={"20px"}>
-              {/* <Box> */}
+            <Flex marginTop={"20px"} flexDir={"column"}>
               <Button
-                flex={1}
                 fontFamily={"Poppins"}
                 bg="pmy.100"
                 color={"white"}
@@ -86,7 +96,7 @@ const Login: React.FC = () => {
               >
                 Login
               </Button>
-              {/* </Box> */}
+              <LinkToSignup />
             </Flex>
           </Flex>
         </Center>
