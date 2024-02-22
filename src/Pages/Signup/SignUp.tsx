@@ -7,19 +7,12 @@ import {
   Text,
   useStatStyles,
 } from "@chakra-ui/react";
-import {
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  MenuItemOption,
-  MenuGroup,
-  MenuOptionGroup,
-  MenuDivider,
-} from "@chakra-ui/react";
+import { Menu, MenuButton, MenuList, MenuItem } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
-import React, { useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { Signup } from "./RequestSignup.ts";
+
 let InputStyle = {
   boxShadow: "none",
   border: "transparent",
@@ -28,8 +21,11 @@ let InputStyle = {
 };
 let _opacity = { opacity: 0.7 };
 
-const PhoneOptions: React.FC = () => {
-  const [code, setCode] = useState("+91");
+interface PhoneOptionsProps {
+  code: string;
+  setCode: Dispatch<SetStateAction<string>>;
+}
+const PhoneOptions: React.FC<PhoneOptionsProps> = ({ code, setCode }) => {
   const onHandleClick = (props) => {
     setCode(props);
   };
@@ -92,11 +88,41 @@ const PhoneOptions: React.FC = () => {
     </>
   );
 };
-const SignUp: React.FC = () => {
-  const LinkToSignup: React.FC = () => {
-    const RedirectToLogin = () => {
-        
+const SignUp: React.FC =  () => {
+  const [fName, setFName] = useState("");
+  const [pswd, setPswd] = useState("");
+  const [email, setEmail] = useState("");
+  const [lName, setLName] = useState("");
+  const [Phone, setPhone] = useState("");
+  const [code, setCode] = useState("+91");
+
+  useEffect(() => {
+    console.log(fName);
+  }, [fName]);
+
+  const CallForRequest = async() => {
+    console.log(fName);
+    console.log(lName);
+    console.log(email);
+    console.log(pswd);
+    console.log(Phone);
+    console.log(code);
+    let info = {
+      firstName: fName,
+      lastName: lName,
+      userType: "customer",
+      email: email,
+      password: pswd,
+      phoneNumber: Phone,
+      countryCode: code,
     };
+    await Signup(info).then(() => {
+      setTimeout(() => {
+        window.location.replace("http://localhost:3001/login");
+      }, 5000);
+    });
+  };
+  const LinkToSignup: React.FC = () => {
     return (
       <Flex gap={"5px"} marginTop={"10px"}>
         <Text fontFamily={"Poppins"} fontSize={"14px"}>
@@ -137,12 +163,7 @@ const SignUp: React.FC = () => {
               SignUp
             </Text>
 
-            <Flex
-              flexDirection="column"
-              gap={"10px"}
-              marginTop={"30px"}
-              maxW={"400px"}
-            >
+            <Flex flexDirection="column" gap={"10px"} maxW={"400px"}>
               <Flex gap={"10px"}>
                 <Flex flexDirection="column">
                   <Text fontFamily={"Poppins"} opacity={"0.8"}>
@@ -152,6 +173,10 @@ const SignUp: React.FC = () => {
                     placeholder="first name"
                     _placeholder={_opacity}
                     color={"black"}
+                    onChange={(e) => {
+                      setFName(e.target.value);
+                    }}
+                    value={fName}
                     style={InputStyle}
                   />
                 </Flex>
@@ -163,6 +188,10 @@ const SignUp: React.FC = () => {
                   <Input
                     placeholder="last name"
                     _placeholder={_opacity}
+                    onChange={(e) => {
+                      setLName(e.target.value);
+                    }}
+                    value={lName}
                     color={"black"}
                     style={InputStyle}
                   />
@@ -178,6 +207,10 @@ const SignUp: React.FC = () => {
                   placeholder="Email"
                   style={InputStyle}
                   _placeholder={_opacity}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                  }}
+                  value={email}
                   color={"black"}
                 />
               </Flex>
@@ -191,6 +224,10 @@ const SignUp: React.FC = () => {
                   style={InputStyle}
                   _placeholder={_opacity}
                   color={"black"}
+                  onChange={(e) => {
+                    setPswd(e.target.value);
+                  }}
+                  value={pswd}
                   type="password"
                 />
               </Flex>
@@ -200,12 +237,16 @@ const SignUp: React.FC = () => {
                 Phone no.
               </Text>
               <Flex gap={"10px"}>
-                <PhoneOptions />
+                <PhoneOptions code={code} setCode={setCode} />
                 <Input
                   placeholder="password"
                   style={InputStyle}
                   _placeholder={_opacity}
                   color={"black"}
+                  onChange={(e) => {
+                    setPhone(e.target.value);
+                  }}
+                  value={Phone}
                   type="Phone no."
                 />
               </Flex>
@@ -217,11 +258,12 @@ const SignUp: React.FC = () => {
                 fontFamily={"Poppins"}
                 bg="pmy.100"
                 color={"white"}
-                _hover={{ bg: "pmy.200" }}
+                onClick={CallForRequest}
+                _hover={{ opacity: 0.8 }}
               >
                 Sign up
               </Button>
-                <LinkToSignup/>
+              <LinkToSignup />
               {/* </Box> */}
             </Flex>
           </Flex>

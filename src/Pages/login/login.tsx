@@ -9,8 +9,11 @@ import {
   Text,
   background,
 } from "@chakra-ui/react";
-import React, { ReactElement } from "react";
+import React, { ReactElement, useState } from "react";
 import { Link } from "react-router-dom";
+import { Signup } from "../Signup/RequestSignup.ts";
+import { RequestLogin } from "./RequestLogin.ts";
+import { _Cookies } from "../../Hooks/useAuth.ts";
 
 let InputStyle = {
   boxShadow: "none",
@@ -19,14 +22,40 @@ let InputStyle = {
   fontFamily: "Poppins",
 };
 const Login: React.FC = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const CallLogin = async () => {
+    let info = {
+      email: email,
+      password: password,
+    };
+    RequestLogin(info).then((res) => {
+      console.log(res);
+      if (res.status) {
+        _Cookies().saveOnCookies(res.jwt);
+        _Cookies().tokenExist();
+        setTimeout(()=>{
+          window.location.replace("http://localhost:3001")
+        },3000)
+      }
+    });
+  };
   const LinkToSignup: React.FC = () => {
-    const RedirectToLogin=()=>{
-
-    }
     return (
       <Flex gap={"5px"} marginTop={"10px"}>
-        <Text fontFamily={"Poppins"} fontSize={"14px"}>don't have an account?</Text>
-        <Link to={"/signup"}><Text fontFamily={"Poppins"} fontSize={"14px"} color={"#4285F4"} cursor={"pointer"}>Signup</Text></Link>
+        <Text fontFamily={"Poppins"} fontSize={"14px"}>
+          don't have an account?
+        </Text>
+        <Link to={"/signup"}>
+          <Text
+            fontFamily={"Poppins"}
+            fontSize={"14px"}
+            color={"#4285F4"}
+            cursor={"pointer"}
+          >
+            Signup
+          </Text>
+        </Link>
       </Flex>
     );
   };
@@ -52,24 +81,19 @@ const Login: React.FC = () => {
               Login
             </Text>
 
-            {/* <Box>
-              <Text fontFamily={"Poppins"}>Flex</Text>
-            </Box> */}
-
-            <Flex
-              flexDirection="column"
-              gap={"10px"}
-              w="300px"
-              marginTop={"30px"}
-            >
+            <Flex flexDirection="column" gap={"10px"} w="300px">
               <Flex flexDirection="column">
                 <Text fontFamily={"Poppins"} opacity={"0.8"}>
-                  Username
+                  Email
                 </Text>
                 <Input
-                  placeholder="Username"
+                  placeholder="Email"
                   color={"black"}
                   style={InputStyle}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                  }}
+                  value={email}
                 />
               </Flex>
 
@@ -81,6 +105,10 @@ const Login: React.FC = () => {
                 <Input
                   placeholder="password"
                   style={InputStyle}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                  }}
+                  value={password}
                   color={"black"}
                   type="password"
                 />
@@ -92,7 +120,10 @@ const Login: React.FC = () => {
                 fontFamily={"Poppins"}
                 bg="pmy.100"
                 color={"white"}
-                _hover={{ bg: "pmy.200" }}
+                _hover={{ opacity: 0.8 }}
+                onClick={() => {
+                  CallLogin();
+                }}
               >
                 Login
               </Button>
