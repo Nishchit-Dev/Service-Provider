@@ -9,21 +9,28 @@ import {
   Text,
   background,
 } from "@chakra-ui/react";
-import React, { ReactElement, useState } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Signup } from "../Signup/RequestSignup.ts";
 import { RequestLogin } from "./RequestLogin.ts";
 import { _Cookies } from "../../Hooks/useAuth.ts";
+import { Background } from "../../ChakraComponents/background/Background.tsx";
+import { Regex } from "../../Utility/Regex.ts";
+import useLoginValidaitons from "./useLogin.tsx";
 
 let InputStyle = {
   boxShadow: "none",
-  border: "transparent",
+  // border: "transparent",
   backgroundColor: "#F7F7F7",
   fontFamily: "Poppins",
 };
 const Login: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { emailBorderColor, passBorderColor, isFormValid } =
+    useLoginValidaitons(email, password);
+  useEffect(() => {}, [emailBorderColor, passBorderColor]);
+
   const CallLogin = async () => {
     let info = {
       email: email,
@@ -34,9 +41,9 @@ const Login: React.FC = () => {
       if (res.status) {
         _Cookies().saveOnCookies(res.jwt);
         _Cookies().tokenExist();
-        setTimeout(()=>{
-          window.location.replace("http://localhost:3001")
-        },3000)
+        setTimeout(() => {
+          window.location.replace("http://localhost:3001");
+        }, 3000);
       }
     });
   };
@@ -59,9 +66,36 @@ const Login: React.FC = () => {
       </Flex>
     );
   };
+  const LinkToForgot: React.FC = () => {
+    return (
+      <Flex gap={"5px"} marginTop={"10px"}>
+        <Text fontFamily={"Poppins"} fontSize={"14px"}>
+          {/* Forgot password? */}
+        </Text>
+        <Link to={"/restpswd"}>
+          <Text
+            fontFamily={"Poppins"}
+            fontSize={"14px"}
+            color={"#4285F4"}
+            cursor={"pointer"}
+          >
+            Forgot password?
+          </Text>
+        </Link>
+      </Flex>
+    );
+  };
   return (
     <>
-      <Center h="100vh" gap={"100px"}>
+      <Background />
+      <Center
+        zIndex={99}
+        h="100vh"
+        gap={"100px"}
+        position={"absolute"}
+        w={"100%"}
+        top={"0vh"}
+      >
         <Center borderRadius={"12px"} boxShadow={"2xl"}>
           <Flex
             direction={"column"}
@@ -88,10 +122,12 @@ const Login: React.FC = () => {
                 </Text>
                 <Input
                   placeholder="Email"
+                  id="email"
                   color={"black"}
                   style={InputStyle}
+                  focusBorderColor={emailBorderColor}
                   onChange={(e) => {
-                    setEmail(e.target.value);
+                    setEmail(e.target.value.trim());
                   }}
                   value={email}
                 />
@@ -106,10 +142,11 @@ const Login: React.FC = () => {
                   placeholder="password"
                   style={InputStyle}
                   onChange={(e) => {
-                    setPassword(e.target.value);
+                    setPassword(e.target.value.trim());
                   }}
                   value={password}
                   color={"black"}
+                  focusBorderColor={passBorderColor}
                   type="password"
                 />
               </Flex>
@@ -122,11 +159,14 @@ const Login: React.FC = () => {
                 color={"white"}
                 _hover={{ opacity: 0.8 }}
                 onClick={() => {
-                  CallLogin();
+                  if (isFormValid) {
+                    CallLogin();
+                  }
                 }}
               >
                 Login
               </Button>
+              <LinkToForgot />
               <LinkToSignup />
             </Flex>
           </Flex>

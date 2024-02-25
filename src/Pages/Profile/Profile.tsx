@@ -7,12 +7,13 @@ import {
   Input,
   StepIndicatorProps,
   Center,
+  Img,
 } from "@chakra-ui/react";
 import NavComponents from "../../ChakraComponents/Nav/navigatoin.tsx";
 let InputStyle = {
   boxShadow: "none",
   border: "transparent",
-  backgroundColor: "#F7F7F7",
+  backgroundColor: "#E4E4E4",
   fontFamily: "Poppins",
 };
 let _opacity = { opacity: 0.7 };
@@ -30,96 +31,110 @@ const ProfileTab: React.FC = () => {
   return (
     <>
       <NavComponents />
-      <Center h="100vh"  >
-        <Flex padding={"40px 50px"} bg={"ntl.200"} borderRadius={"9px"}> 
-          <Box>
-            <Flex flexDirection="column" flex={1}>
-              <Text fontFamily={"Poppins"} opacity={"0.8"}>
-                Id
-              </Text>
+      {userData ? (
+        <Center h="100vh">
+          <Flex
+            padding={"40px 50px"}
+            boxShadow={"2xl"}
+            //   bg={"ntl.200"}
+            borderRadius={"9px"}
+          >
+            <Box>
+              <Flex flexDirection="column" flex={1}>
+                <Img src="/Assets/profile.svg" borderRadius={999} />
+              </Flex>
+              <Flex flexDirection="column" flex={1}>
+                <Text fontFamily={"Poppins"} opacity={"0.8"}>
+                  Id
+                </Text>
 
-              <Input
-                placeholder="Email"
-                style={InputStyle}
-                disabled
-                _placeholder={_opacity}
-                value={userData?.id}
-                color={"black"}
-              />
-            </Flex>
-            <Flex flexDirection="column" flex={1}>
-              <Text fontFamily={"Poppins"} opacity={"0.8"}>
-                Email
-              </Text>
+                <Input
+                  placeholder="Email"
+                  style={InputStyle}
+                  disabled
+                  _placeholder={_opacity}
+                  value={userData?.id}
+                  color={"black"}
+                />
+              </Flex>
+              <Flex flexDirection="column" flex={1}>
+                <Text fontFamily={"Poppins"} opacity={"0.8"}>
+                  Email
+                </Text>
 
-              <Input
-                placeholder="Email"
-                style={InputStyle}
-                disabled
-                _placeholder={_opacity}
-                value={userData?.email}
-                color={"black"}
-              />
-            </Flex>
-            <Flex flexDirection="column" flex={1}>
-              <Text fontFamily={"Poppins"} opacity={"0.8"}>
-                First Name
-              </Text>
+                <Input
+                  placeholder="Email"
+                  style={InputStyle}
+                  disabled
+                  _placeholder={_opacity}
+                  value={userData?.email}
+                  color={"black"}
+                />
+              </Flex>
+              <Flex flexDirection="column" flex={1}>
+                <Text fontFamily={"Poppins"} opacity={"0.8"}>
+                  First Name
+                </Text>
 
-              <Input
-                placeholder="Email"
-                style={InputStyle}
-                disabled
-                _placeholder={_opacity}
-                value={userData?.firstName}
-                color={"black"}
-              />
-            </Flex>
-            <Flex flexDirection="column" flex={1}>
-              <Text fontFamily={"Poppins"} opacity={"0.8"}>
-                Last Name
-              </Text>
+                <Input
+                  placeholder="Email"
+                  style={InputStyle}
+                  disabled
+                  _placeholder={_opacity}
+                  value={userData?.firstName}
+                  color={"black"}
+                />
+              </Flex>
+              <Flex flexDirection="column" flex={1}>
+                <Text fontFamily={"Poppins"} opacity={"0.8"}>
+                  Last Name
+                </Text>
 
-              <Input
-                placeholder="Email"
-                style={InputStyle}
-                disabled
-                _placeholder={_opacity}
-                value={userData?.lastName}
-                color={"black"}
-              />
-            </Flex>
-            <Flex flexDirection="column" flex={1}>
-              <Text fontFamily={"Poppins"} opacity={"0.8"}>
-                Phone no
-              </Text>
+                <Input
+                  placeholder="Email"
+                  style={InputStyle}
+                  disabled
+                  _placeholder={_opacity}
+                  value={userData?.lastName}
+                  color={"black"}
+                />
+              </Flex>
+              <Flex flexDirection="column" flex={1}>
+                <Text fontFamily={"Poppins"} opacity={"0.8"}>
+                  Phone no
+                </Text>
 
-              <Input
-                placeholder="Email"
-                style={InputStyle}
-                disabled
-                _placeholder={_opacity}
-                value={`${userData?.countryCode}${userData?.phoneNumber}`}
-                color={"black"}
-              />
-            </Flex>
-            <Flex flexDirection="column" flex={1}>
-              <Text fontFamily={"Poppins"} opacity={"0.8"}>
-                User Type
-              </Text>
+                <Input
+                  placeholder="Email"
+                  style={InputStyle}
+                  disabled
+                  _placeholder={_opacity}
+                  value={`${userData?.countryCode}${userData?.phoneNumber}`}
+                  color={"black"}
+                />
+              </Flex>
+              <Flex flexDirection="column" flex={1}>
+                <Text fontFamily={"Poppins"} opacity={"0.8"}>
+                  User Type
+                </Text>
 
-              <Input
-                placeholder="Email"
-                style={InputStyle}
-                disabled
-                _placeholder={_opacity}
-                value={userData?.userType}
-                color={"black"}
-              />
-            </Flex>
-          </Box>
-        </Flex>
-      </Center>
+                <Input
+                  placeholder="Email"
+                  style={InputStyle}
+                  disabled
+                  _placeholder={_opacity}
+                  value={userData?.userType}
+                  color={"black"}
+                />
+              </Flex>
+            </Box>
+          </Flex>
+        </Center>
+      ) : (
+        <Center>
+          <Text color={"red.100"} fontWeight={"500"} fontFamily={"Poppins"}>Need Authorization</Text>
+        </Center>
+      )}
     </>
   );
 };

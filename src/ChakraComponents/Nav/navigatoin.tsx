@@ -5,10 +5,6 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
-  MenuItemOption,
-  MenuGroup,
-  MenuOptionGroup,
-  MenuDivider,
 } from "@chakra-ui/react";
 import { HamburgerIcon } from "@chakra-ui/icons";
 import Profile from "./profile.tsx";
@@ -26,6 +22,7 @@ const NavMenu: React.FC = () => {
         >
           Menu
         </MenuButton>
+        <Text marginLeft={"30px"} fontFamily={"Poppins"} fontWeight={"700"} fontSize={"24px"}>ServiceGennie</Text>
         <MenuList>
           <MenuItem
             onClick={() => {

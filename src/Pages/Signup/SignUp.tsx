@@ -3,6 +3,7 @@ import {
   Button,
   Center,
   Flex,
+  FormLabel,
   Input,
   Text,
   useStatStyles,
@@ -12,12 +13,14 @@ import { ChevronDownIcon } from "@chakra-ui/icons";
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Signup } from "./RequestSignup.ts";
+import { Background } from "../../ChakraComponents/background/Background.tsx";
 
 let InputStyle = {
   boxShadow: "none",
   border: "transparent",
   backgroundColor: "#F7F7F7",
   fontFamily: "Poppins",
+  min: "2",
 };
 let _opacity = { opacity: 0.7 };
 
@@ -88,7 +91,7 @@ const PhoneOptions: React.FC<PhoneOptionsProps> = ({ code, setCode }) => {
     </>
   );
 };
-const SignUp: React.FC =  () => {
+const SignUp: React.FC = () => {
   const [fName, setFName] = useState("");
   const [pswd, setPswd] = useState("");
   const [email, setEmail] = useState("");
@@ -96,11 +99,24 @@ const SignUp: React.FC =  () => {
   const [Phone, setPhone] = useState("");
   const [code, setCode] = useState("+91");
 
+  // validation
+  const [isEmailValid, setEmailValid] = useState(true);
+
   useEffect(() => {
     console.log(fName);
   }, [fName]);
 
-  const CallForRequest = async() => {
+  useEffect(() => {
+    let Regex =
+      /^((?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,})$/;
+    let flag = !Regex.test(pswd);
+    console.log(flag);
+
+    if (flag) {
+      setEmailValid(!flag);
+    }
+  }, [pswd]);
+  const CallForRequest = async () => {
     console.log(fName);
     console.log(lName);
     console.log(email);
@@ -143,7 +159,14 @@ const SignUp: React.FC =  () => {
   };
   return (
     <>
-      <Center h="100vh" gap={"100px"}>
+      <Background />
+      <Center
+        h="100vh"
+        gap={"100px"}
+        position={"absolute"}
+        w={"100%"}
+        top={"0vh"}
+      >
         <Center borderRadius={"12px"} boxShadow={"2xl"}>
           <Flex
             direction={"column"}
@@ -170,6 +193,8 @@ const SignUp: React.FC =  () => {
                     First Name
                   </Text>
                   <Input
+                    isRequired
+                    isInvalid
                     placeholder="first name"
                     _placeholder={_opacity}
                     color={"black"}
@@ -186,6 +211,9 @@ const SignUp: React.FC =  () => {
                     Last Name
                   </Text>
                   <Input
+                    isInvalid
+                    minLength={2}
+                    errorBorderColor="red.100"
                     placeholder="last name"
                     _placeholder={_opacity}
                     onChange={(e) => {
@@ -202,9 +230,15 @@ const SignUp: React.FC =  () => {
                 <Text fontFamily={"Poppins"} opacity={"0.8"}>
                   Email
                 </Text>
+                {/* {!isEmailValid ? (
+                  <FormLabel color={"red.100"}>Invalid Password</FormLabel>
+                ) : (
+                  <FormLabel color={".100"}>Invalid Password</FormLabel>
+                )} */}
 
                 <Input
                   placeholder="Email"
+                  isRequired
                   style={InputStyle}
                   _placeholder={_opacity}
                   onChange={(e) => {
@@ -223,6 +257,7 @@ const SignUp: React.FC =  () => {
                   placeholder="password"
                   style={InputStyle}
                   _placeholder={_opacity}
+                  isInvalid={isEmailValid}
                   color={"black"}
                   onChange={(e) => {
                     setPswd(e.target.value);
@@ -239,7 +274,7 @@ const SignUp: React.FC =  () => {
               <Flex gap={"10px"}>
                 <PhoneOptions code={code} setCode={setCode} />
                 <Input
-                  placeholder="password"
+                  placeholder="Phone no."
                   style={InputStyle}
                   _placeholder={_opacity}
                   color={"black"}

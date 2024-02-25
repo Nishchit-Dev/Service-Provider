@@ -9,8 +9,11 @@ export const CallProfile = async () => {
       Authorization: `Bearer ${jwt}`,
     },
   });
-
-  const res = await AxiosInstance.get("/auth/whoAmI");
+  try {
+    const res = await AxiosInstance.get("/auth/whoAmI");
     console.log(res);
     return res.data.user;
+  } catch (err) {
+    console.log(err)
+  }
 };
