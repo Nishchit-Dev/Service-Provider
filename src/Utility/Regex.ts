@@ -7,7 +7,7 @@ interface RegexType {
 }
 export const Regex: RegexType = {
   Name: /^(?! ).*[^ ]$/,
-  Email: /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+  Email: /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/,
   Password: /^((?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,})$/,
   Phone: /^\d{10}$/,
   CountryCode: /^\\+\\d{1,2}$/,
