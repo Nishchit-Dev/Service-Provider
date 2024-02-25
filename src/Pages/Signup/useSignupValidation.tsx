@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Regex } from "../../Utility/Regex";
+import { Regex } from "../../Utility/Regex.ts";
 
 const isNameValid = (name: string) => {
   return Regex.Name.test(name);
@@ -62,7 +62,7 @@ const useSignupValidation = (
     } else {
       setBorderColor((prev) => ({ ...prev, fName: borderColors.invalid }));
     }
-  });
+  }, [fName]);
 
   useEffect(() => {
     let flag = isNameValid(lName);
@@ -71,7 +71,7 @@ const useSignupValidation = (
     } else {
       setBorderColor((prev) => ({ ...prev, lName: borderColors.invalid }));
     }
-  });
+  }, [lName]);
 
   useEffect(() => {
     let flag = isValidEmail(email);
@@ -80,7 +80,7 @@ const useSignupValidation = (
     } else {
       setBorderColor((prev) => ({ ...prev, email: borderColors.invalid }));
     }
-  });
+  }, [email]);
 
   useEffect(() => {
     let flag = isPhoneValid(phone);
@@ -89,7 +89,7 @@ const useSignupValidation = (
     } else {
       setBorderColor((prev) => ({ ...prev, phone: borderColors.invalid }));
     }
-  });
+  }, [phone]);
 
   useEffect(() => {
     let flag = isValidPassword(pswd);
@@ -98,7 +98,7 @@ const useSignupValidation = (
     } else {
       setBorderColor((prev) => ({ ...prev, pswd: borderColors.invalid }));
     }
-  });
+  }, [pswd]);
 
   return { isFormValid, borderColor };
 };

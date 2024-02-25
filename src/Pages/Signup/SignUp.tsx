@@ -14,10 +14,11 @@ import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Signup } from "./RequestSignup.ts";
 import { Background } from "../../ChakraComponents/background/Background.tsx";
+import useSignupValidation from "./useSignupValidation.tsx";
 
 let InputStyle = {
   boxShadow: "none",
-  border: "transparent",
+  // border: "transparent",
   backgroundColor: "#F7F7F7",
   fontFamily: "Poppins",
   min: "2",
@@ -98,7 +99,13 @@ const SignUp: React.FC = () => {
   const [lName, setLName] = useState("");
   const [Phone, setPhone] = useState("");
   const [code, setCode] = useState("+91");
-
+  const { isFormValid, borderColor } = useSignupValidation(
+    fName,
+    lName,
+    pswd,
+    Phone,
+    email
+  );
   // validation
   const [isEmailValid, setEmailValid] = useState(true);
 
@@ -117,12 +124,6 @@ const SignUp: React.FC = () => {
     }
   }, [pswd]);
   const CallForRequest = async () => {
-    console.log(fName);
-    console.log(lName);
-    console.log(email);
-    console.log(pswd);
-    console.log(Phone);
-    console.log(code);
     let info = {
       firstName: fName,
       lastName: lName,
@@ -193,9 +194,8 @@ const SignUp: React.FC = () => {
                     First Name
                   </Text>
                   <Input
-                    isRequired
-                    isInvalid
                     placeholder="first name"
+                    focusBorderColor={borderColor.fName}
                     _placeholder={_opacity}
                     color={"black"}
                     onChange={(e) => {
@@ -211,9 +211,7 @@ const SignUp: React.FC = () => {
                     Last Name
                   </Text>
                   <Input
-                    isInvalid
-                    minLength={2}
-                    errorBorderColor="red.100"
+                    focusBorderColor={borderColor.lName}
                     placeholder="last name"
                     _placeholder={_opacity}
                     onChange={(e) => {
@@ -241,6 +239,7 @@ const SignUp: React.FC = () => {
                   isRequired
                   style={InputStyle}
                   _placeholder={_opacity}
+                  focusBorderColor={borderColor.email}
                   onChange={(e) => {
                     setEmail(e.target.value);
                   }}
@@ -257,6 +256,7 @@ const SignUp: React.FC = () => {
                   placeholder="password"
                   style={InputStyle}
                   _placeholder={_opacity}
+                  focusBorderColor={borderColor.pswd}
                   isInvalid={isEmailValid}
                   color={"black"}
                   onChange={(e) => {
@@ -276,6 +276,7 @@ const SignUp: React.FC = () => {
                 <Input
                   placeholder="Phone no."
                   style={InputStyle}
+                  focusBorderColor={borderColor.phone}
                   _placeholder={_opacity}
                   color={"black"}
                   onChange={(e) => {
