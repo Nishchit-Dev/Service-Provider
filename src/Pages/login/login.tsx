@@ -125,6 +125,8 @@ const Login: React.FC = () => {
                   id="email"
                   color={"black"}
                   style={InputStyle}
+                  borderColor={"#EDF2F7"}
+
                   _hover={{
                     borderColor: "#CBD5E0",
                   }}

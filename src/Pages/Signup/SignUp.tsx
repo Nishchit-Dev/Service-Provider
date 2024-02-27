@@ -196,6 +196,8 @@ const SignUp: React.FC = () => {
                   <Input
                     placeholder="first name"
                     focusBorderColor={borderColor.fName}
+                  borderColor={"#EDF2F7"}
+
                     _placeholder={_opacity}
                     color={"black"}
                     _hover={{
@@ -217,6 +219,8 @@ const SignUp: React.FC = () => {
                   <Input
                     focusBorderColor={borderColor.lName}
                     placeholder="last name"
+                  borderColor={"#EDF2F7"}
+
                     _placeholder={_opacity}
                     onChange={(e) => {
                       setLName(e.target.value);
@@ -241,6 +245,8 @@ const SignUp: React.FC = () => {
                 <Input
                   placeholder="Email"
                   isRequired
+                  borderColor={"#EDF2F7"}
+
                   style={InputStyle}
                   _placeholder={_opacity}
                   focusBorderColor={borderColor.email}
@@ -259,6 +265,8 @@ const SignUp: React.FC = () => {
                 <Input
                   placeholder="password"
                   style={InputStyle}
+                  borderColor={"#EDF2F7"}
+
                   _placeholder={_opacity}
                   focusBorderColor={borderColor.pswd}
                   isInvalid={isEmailValid}
@@ -280,6 +288,8 @@ const SignUp: React.FC = () => {
                 <Input
                   placeholder="Phone no."
                   style={InputStyle}
+                  borderColor={"#EDF2F7"}
+
                   focusBorderColor={borderColor.phone}
                   _placeholder={_opacity}
                   color={"black"}
