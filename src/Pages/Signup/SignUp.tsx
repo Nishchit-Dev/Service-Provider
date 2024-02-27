@@ -18,7 +18,6 @@ import useSignupValidation from "./useSignupValidation.tsx";
 
 let InputStyle = {
   boxShadow: "none",
-  // border: "transparent",
   backgroundColor: "#F7F7F7",
   fontFamily: "Poppins",
   min: "2",
@@ -176,6 +175,7 @@ const SignUp: React.FC = () => {
             margin={"60px 25px"}
             padding={"10px"}
             gap={"20px"}
+            
           >
             <Text
               textAlign={"center"}
@@ -198,6 +198,10 @@ const SignUp: React.FC = () => {
                     focusBorderColor={borderColor.fName}
                     _placeholder={_opacity}
                     color={"black"}
+                    _hover={{
+                      textIndent:"10px"
+                    }}
+                    transform={"text-Indent 2s ease-in"}
                     onChange={(e) => {
                       setFName(e.target.value);
                     }}

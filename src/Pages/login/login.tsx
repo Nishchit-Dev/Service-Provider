@@ -20,7 +20,7 @@ import useLoginValidaitons from "./useLogin.tsx";
 
 let InputStyle = {
   boxShadow: "none",
-  // border: "transparent",
+  borderColor:"",
   backgroundColor: "#F7F7F7",
   fontFamily: "Poppins",
 };
