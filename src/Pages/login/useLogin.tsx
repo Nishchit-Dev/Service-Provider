@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Regex } from "../../Utility/Regex.ts";
+import { border } from "@chakra-ui/react";
 
 const isValidEmail = (email: string) => {
   return Regex.Email.test(email);
@@ -13,8 +14,8 @@ const borderColor = {
   invalid: "red.100",
 };
 const useLoginValidaitons = (email: string, password: string) => {
-  const [emailBorderColor, setEmailBorderColor] = useState("transparent");
-  const [passBorderColor, setPassBorderColor] = useState("transparent");
+  const [emailBorderColor, setEmailBorderColor] = useState(borderColor.valid);
+  const [passBorderColor, setPassBorderColor] = useState(borderColor.valid);
   const [isFormValid, setIsFormValid] = useState(false);
 
   useEffect(() => {

@@ -19,18 +19,19 @@ const isValidEmail = (email: string) => {
 const isValidPassword = (pass: string) => {
   return Regex.Password.test(pass);
 };
-const data = {
-  fName: "",
-  lName: "",
-  pswd: "",
-  code: "",
-  phone: "",
-  email: "",
-};
 const borderColors = {
   valid: "transparent",
   invalid: "red.100",
 };
+const data = {
+  fName: borderColors.valid,
+  lName: borderColors.valid,
+  pswd: borderColors.valid,
+  code: borderColors.valid,
+  phone: borderColors.valid,
+  email: borderColors.valid,
+};
+
 const useSignupValidation = (
   fName: string,
   lName: string,
