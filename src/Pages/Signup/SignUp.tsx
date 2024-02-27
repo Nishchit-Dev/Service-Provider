@@ -175,7 +175,6 @@ const SignUp: React.FC = () => {
             margin={"60px 25px"}
             padding={"10px"}
             gap={"20px"}
-            
           >
             <Text
               textAlign={"center"}
@@ -196,14 +195,9 @@ const SignUp: React.FC = () => {
                   <Input
                     placeholder="first name"
                     focusBorderColor={borderColor.fName}
-                  borderColor={"#EDF2F7"}
-
+                    borderColor={"#EDF2F7"}
                     _placeholder={_opacity}
                     color={"black"}
-                    _hover={{
-                      textIndent:"10px"
-                    }}
-                    transform={"text-Indent 2s ease-in"}
                     onChange={(e) => {
                       setFName(e.target.value);
                     }}
@@ -219,8 +213,7 @@ const SignUp: React.FC = () => {
                   <Input
                     focusBorderColor={borderColor.lName}
                     placeholder="last name"
-                  borderColor={"#EDF2F7"}
-
+                    borderColor={"#EDF2F7"}
                     _placeholder={_opacity}
                     onChange={(e) => {
                       setLName(e.target.value);
@@ -246,7 +239,6 @@ const SignUp: React.FC = () => {
                   placeholder="Email"
                   isRequired
                   borderColor={"#EDF2F7"}
-
                   style={InputStyle}
                   _placeholder={_opacity}
                   focusBorderColor={borderColor.email}
@@ -266,7 +258,6 @@ const SignUp: React.FC = () => {
                   placeholder="password"
                   style={InputStyle}
                   borderColor={"#EDF2F7"}
-
                   _placeholder={_opacity}
                   focusBorderColor={borderColor.pswd}
                   isInvalid={isEmailValid}
@@ -289,7 +280,6 @@ const SignUp: React.FC = () => {
                   placeholder="Phone no."
                   style={InputStyle}
                   borderColor={"#EDF2F7"}
-
                   focusBorderColor={borderColor.phone}
                   _placeholder={_opacity}
                   color={"black"}

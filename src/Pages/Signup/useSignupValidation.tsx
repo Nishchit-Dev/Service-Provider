@@ -20,7 +20,7 @@ const isValidPassword = (pass: string) => {
   return Regex.Password.test(pass);
 };
 const borderColors = {
-  valid: "inherit",
+  valid: "#EDF2F7",
   invalid: "red.100",
 };
 const data = {

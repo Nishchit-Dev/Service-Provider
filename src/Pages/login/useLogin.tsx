@@ -10,7 +10,7 @@ const isValidPassword = (pass: string) => {
 };
 
 const borderColor = {
-  valid: "inherit",
+  valid: "#EDF2F7",
   invalid: "red.100",
 };
 const useLoginValidaitons = (email: string, password: string) => {
