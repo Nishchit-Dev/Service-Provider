@@ -126,7 +126,7 @@ const Login: React.FC = () => {
                   color={"black"}
                   style={InputStyle}
                   _hover={{
-                    borderColor:"#CBD5E0"
+                    borderColor: "#CBD5E0",
                   }}
                   focusBorderColor={emailBorderColor}
                   onChange={(e) => {
@@ -142,6 +142,10 @@ const Login: React.FC = () => {
                 </Text>
 
                 <Input
+                  _hover={{
+                    borderColor: "#CBD5E0",
+                  }}
+                  borderColor={"#EDF2F7"}
                   placeholder="password"
                   style={InputStyle}
                   onChange={(e) => {
