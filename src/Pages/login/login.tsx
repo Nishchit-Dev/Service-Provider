@@ -20,7 +20,7 @@ import useLoginValidaitons from "./useLogin.tsx";
 
 let InputStyle = {
   boxShadow: "none",
-  borderColor:"inherit",
+  borderColor:"gray.100",
   backgroundColor: "#F7F7F7",
   fontFamily: "Poppins",
 };
@@ -128,6 +128,9 @@ const Login: React.FC = () => {
                   focusBorderColor={emailBorderColor}
                   onChange={(e) => {
                     setEmail(e.target.value.trim());
+                  }}
+                  _hover={{
+                    borderColor:"gray.200"
                   }}
                   value={email}
                 />
