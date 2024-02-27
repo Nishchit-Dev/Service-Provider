@@ -7,6 +7,7 @@ import {
   Input,
   Text,
   useStatStyles,
+  useToast,
 } from "@chakra-ui/react";
 import { Menu, MenuButton, MenuList, MenuItem } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
@@ -15,6 +16,8 @@ import { Link } from "react-router-dom";
 import { Signup } from "./RequestSignup.ts";
 import { Background } from "../../ChakraComponents/background/Background.tsx";
 import useSignupValidation from "./useSignupValidation.tsx";
+import PhoneOptions from "./components/PhoneNumber.tsx";
+import { SignUpErrors } from "./SignupAlerts.tsx";
 
 let InputStyle = {
   boxShadow: "none",
@@ -24,74 +27,9 @@ let InputStyle = {
 };
 let _opacity = { opacity: 0.7 };
 
-interface PhoneOptionsProps {
-  code: string;
-  setCode: Dispatch<SetStateAction<string>>;
-}
-const PhoneOptions: React.FC<PhoneOptionsProps> = ({ code, setCode }) => {
-  const onHandleClick = (props) => {
-    setCode(props);
-  };
-  const optText = (prop) => {
-    return (
-      <Text textAlign={"center"} fontFamily={"Poppins"}>
-        {prop}
-      </Text>
-    );
-  };
-  return (
-    <>
-      <Menu isLazy>
-        <MenuButton
-          as={Button}
-          style={InputStyle}
-          rightIcon={<ChevronDownIcon />}
-        >
-          {code}
-        </MenuButton>
-
-        <MenuList border={"none"}>
-          <MenuItem
-            onClick={() => {
-              onHandleClick("+91");
-            }}
-          >
-            {optText("+91")}
-          </MenuItem>
-          <MenuItem
-            onClick={() => {
-              onHandleClick("+1");
-            }}
-          >
-            {optText("+1")}
-          </MenuItem>
-          <MenuItem
-            onClick={() => {
-              onHandleClick("+81");
-            }}
-          >
-            {optText("+81")}
-          </MenuItem>
-          <MenuItem
-            onClick={() => {
-              onHandleClick("+72");
-            }}
-          >
-            {optText("+72 ")}
-          </MenuItem>
-          <MenuItem
-            onClick={() => {
-              onHandleClick("+102");
-            }}
-          >
-            {optText("+102")}
-          </MenuItem>
-        </MenuList>
-      </Menu>
-    </>
-  );
-};
 const SignUp: React.FC = () => {
+  const toast = useToast();
+
   const [fName, setFName] = useState("");
   const [pswd, setPswd] = useState("");
   const [email, setEmail] = useState("");
@@ -107,7 +45,12 @@ const SignUp: React.FC = () => {
   );
   // validation
   const [isEmailValid, setEmailValid] = useState(true);
-
+  const [errorFlag, setErrorFlag] = useState(false);
+  const [error, setError] = useState({
+    status: true,
+    name: "",
+    description: "",
+  });
   useEffect(() => {
     console.log(fName);
   }, [fName]);
@@ -123,6 +66,7 @@ const SignUp: React.FC = () => {
     }
   }, [pswd]);
   const CallForRequest = async () => {
+    setErrorFlag(false);
     let info = {
       firstName: fName,
       lastName: lName,
@@ -132,11 +76,27 @@ const SignUp: React.FC = () => {
       phoneNumber: Phone,
       countryCode: code,
     };
-    await Signup(info).then(() => {
-      setTimeout(() => {
-        window.location.replace("http://localhost:3001/login");
-      }, 5000);
-    });
+    await Signup(info).then(
+      (res: { status: boolean; error: { name: string; message: string } }) => {
+        if (res.status) {
+          setErrorFlag(true);
+          setTimeout(() => {
+            window.location.replace("http://localhost:3001/login");
+          }, 5000);
+        } else {
+          console.log(res.error);
+          setErrorFlag(true);
+          setError({
+            status: false,
+            name: res.error?.name,
+            description: res.error?.message,
+          });
+        }
+      }
+    );
+    setTimeout(() => {
+      setErrorFlag(true);
+    }, 400);
   };
   const LinkToSignup: React.FC = () => {
     return (
@@ -160,6 +120,9 @@ const SignUp: React.FC = () => {
   return (
     <>
       <Background />
+      {!errorFlag && !error.status ? (
+        <SignUpErrors toast={toast} data={error} />
+      ) : null}
       <Center
         h="100vh"
         gap={"100px"}
@@ -298,7 +261,12 @@ const SignUp: React.FC = () => {
                 fontFamily={"Poppins"}
                 bg="pmy.100"
                 color={"white"}
-                onClick={CallForRequest}
+                onClick={() => {
+                  if (isFormValid) {
+                    CallForRequest();
+                  }
+                }}
+                opacity={isFormValid ? 1 : 0.7}
                 _hover={{ opacity: 0.8 }}
               >
                 Sign up

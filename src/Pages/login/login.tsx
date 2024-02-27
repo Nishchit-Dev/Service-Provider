@@ -8,8 +8,16 @@ import {
   Input,
   Text,
   background,
+  useToast,
 } from "@chakra-ui/react";
-import React, { ReactElement, useEffect, useState } from "react";
+import React, {
+  ReactElement,
+  memo,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { Link } from "react-router-dom";
 import { Signup } from "../Signup/RequestSignup.ts";
 import { RequestLogin } from "./RequestLogin.ts";
@@ -17,6 +25,7 @@ import { _Cookies } from "../../Hooks/useAuth.ts";
 import { Background } from "../../ChakraComponents/background/Background.tsx";
 import { Regex } from "../../Utility/Regex.ts";
 import useLoginValidaitons from "./useLogin.tsx";
+import { LoginSuccess, LoginsErrors } from "./LoginAlerts.tsx";
 
 let InputStyle = {
   boxShadow: "none",
@@ -24,14 +33,27 @@ let InputStyle = {
   backgroundColor: "#F7F7F7",
   fontFamily: "Poppins",
 };
+interface ErrorState {
+  error: string;
+  discription: string;
+}
 const Login: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState<ErrorState>({
+    error: "",
+    discription: "",
+  });
+
+  console.log("re-render")
+  const [errorTimeFlag, setErrorTimeFlag] = useState(false);
+  const toast = useToast();
   const { emailBorderColor, passBorderColor, isFormValid } =
     useLoginValidaitons(email, password);
-  useEffect(() => {}, [emailBorderColor, passBorderColor]);
 
   const CallLogin = async () => {
+    setErrorTimeFlag(false);
+
     let info = {
       email: email,
       password: password,
@@ -44,7 +66,20 @@ const Login: React.FC = () => {
         setTimeout(() => {
           window.location.replace("http://localhost:3001");
         }, 3000);
+      } else {
+        console.log();
+        if (res.error.statusCode == 401) {
+          setError({ error: res.error.name, discription: res.error.message });
+        } else if (res.error.statusCode == 400) {
+          setError({ error: res.error.name, discription: res.error.message });
+        } else {
+          setError({ error: res.error.name, discription: res.error.message });
+        }
       }
+      setTimeout(() => {
+        setErrorTimeFlag(true);
+        setError({ error: "", discription: "" });
+      }, 5000);
     });
   };
   const LinkToSignup: React.FC = () => {
@@ -88,6 +123,10 @@ const Login: React.FC = () => {
   return (
     <>
       <Background />
+      {error.error && !errorTimeFlag ? (
+        <LoginsErrors toast={toast} data={error} />
+      ) : null}
+
       <Center
         zIndex={99}
         h="100vh"
@@ -126,7 +165,6 @@ const Login: React.FC = () => {
                   color={"black"}
                   style={InputStyle}
                   borderColor={"#EDF2F7"}
-
                   _hover={{
                     borderColor: "#CBD5E0",
                   }}
@@ -163,6 +201,7 @@ const Login: React.FC = () => {
 
             <Flex marginTop={"20px"} flexDir={"column"}>
               <Button
+                opacity={isFormValid ? 1 : 0.7}
                 fontFamily={"Poppins"}
                 bg="pmy.100"
                 color={"white"}
