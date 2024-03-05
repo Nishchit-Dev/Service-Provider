@@ -9,8 +9,7 @@ import {
   useStatStyles,
   useToast,
 } from "@chakra-ui/react";
-import { Menu, MenuButton, MenuList, MenuItem } from "@chakra-ui/react";
-import { ChevronDownIcon } from "@chakra-ui/icons";
+
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Signup } from "./RequestSignup.ts";
@@ -28,7 +27,7 @@ let InputStyle = {
 let _opacity = { opacity: 0.7 };
 
 const SignUp: React.FC = () => {
-  const toast = useToast();
+  const toast = useToast({ position: "top" });
 
   const [fName, setFName] = useState("");
   const [pswd, setPswd] = useState("");
@@ -46,11 +45,6 @@ const SignUp: React.FC = () => {
   // validation
   const [isEmailValid, setEmailValid] = useState(true);
   const [errorFlag, setErrorFlag] = useState(false);
-  const [error, setError] = useState({
-    status: true,
-    name: "",
-    description: "",
-  });
   useEffect(() => {
     console.log(fName);
   }, [fName]);
@@ -76,27 +70,39 @@ const SignUp: React.FC = () => {
       phoneNumber: Phone,
       countryCode: code,
     };
-    await Signup(info).then(
-      (res: { status: boolean; error: { name: string; message: string } }) => {
+
+    const examplePromise = Signup(info)
+      .then((res) => {
         if (res.status) {
-          setErrorFlag(true);
+          setErrorFlag(false);
           setTimeout(() => {
             window.location.replace("http://localhost:3001/login");
           }, 5000);
+          return res;
         } else {
-          console.log(res.error);
           setErrorFlag(true);
-          setError({
-            status: false,
-            name: res.error?.name,
-            description: res.error?.message,
-          });
+          throw new Error(res.error?.message);
         }
-      }
-    );
-    setTimeout(() => {
-      setErrorFlag(true);
-    }, 400);
+      })
+      .catch((error) => {
+        setErrorFlag(true);
+        throw error;
+      });
+
+    toast.promise(examplePromise, {
+      success: {
+        title: "Signup Success",
+        description: "Redirecting to login page...",
+      },
+      error: {
+        title: "Signup Error",
+        description: "Email Already Exist",
+      },
+      loading: {
+        title: "Signing up",
+        description: "Please wait while we process your request",
+      },
+    });
   };
   const LinkToSignup: React.FC = () => {
     return (
@@ -120,9 +126,7 @@ const SignUp: React.FC = () => {
   return (
     <>
       <Background />
-      {!errorFlag && !error.status ? (
-        <SignUpErrors toast={toast} data={error} />
-      ) : null}
+
       <Center
         h="100vh"
         gap={"100px"}
@@ -192,11 +196,6 @@ const SignUp: React.FC = () => {
                 <Text fontFamily={"Poppins"} opacity={"0.8"}>
                   Email
                 </Text>
-                {/* {!isEmailValid ? (
-                  <FormLabel color={"red.100"}>Invalid Password</FormLabel>
-                ) : (
-                  <FormLabel color={".100"}>Invalid Password</FormLabel>
-                )} */}
 
                 <Input
                   placeholder="Email"

@@ -17,13 +17,16 @@ const _theme = {
     },
     ntl: {
       100: "#FEFEFE",
+      150: "#F6F6F6",
       200: "#E4E4E4",
       300: "#FAFAFA",
+      400: "#838FA2"
     },
     red: {
       100: "#FF6868",
       200: "#D24545",
     },
+
   },
 };
 const theme = extendTheme(_theme);

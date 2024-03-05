@@ -1,7 +1,7 @@
+import { useToast } from "@chakra-ui/react";
 import React from "react";
 
 export const SignUpErrors = ({ data, toast }) => {
-  console.log(data);
   return (
     <>
       {toast({

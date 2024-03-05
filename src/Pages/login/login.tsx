@@ -1,31 +1,11 @@
-import {
-  Box,
-  Button,
-  Center,
-  Container,
-  Flex,
-  Img,
-  Input,
-  Text,
-  background,
-  useToast,
-} from "@chakra-ui/react";
-import React, {
-  ReactElement,
-  memo,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import { Button, Center, Flex, Input, Text, useToast } from "@chakra-ui/react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { Signup } from "../Signup/RequestSignup.ts";
+
 import { RequestLogin } from "./RequestLogin.ts";
 import { _Cookies } from "../../Hooks/useAuth.ts";
 import { Background } from "../../ChakraComponents/background/Background.tsx";
-import { Regex } from "../../Utility/Regex.ts";
 import useLoginValidaitons from "./useLogin.tsx";
-import { LoginSuccess, LoginsErrors } from "./LoginAlerts.tsx";
 
 let InputStyle = {
   boxShadow: "none",
@@ -38,6 +18,7 @@ interface ErrorState {
   discription: string;
 }
 const Login: React.FC = () => {
+  const toast = useToast({ position: "top" });
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<ErrorState>({
@@ -45,9 +26,8 @@ const Login: React.FC = () => {
     discription: "",
   });
 
-  console.log("re-render")
+  console.log("re-render");
   const [errorTimeFlag, setErrorTimeFlag] = useState(false);
-  const toast = useToast();
   const { emailBorderColor, passBorderColor, isFormValid } =
     useLoginValidaitons(email, password);
 
@@ -58,8 +38,31 @@ const Login: React.FC = () => {
       email: email,
       password: password,
     };
-    RequestLogin(info).then((res) => {
-      console.log(res);
+    // RequestLogin(info).then((res) => {
+    //   console.log(res);
+    //   if (res.status) {
+    //     _Cookies().saveOnCookies(res.jwt);
+    //     _Cookies().tokenExist();
+    //     setTimeout(() => {
+    //       window.location.replace("http://localhost:3001");
+    //     }, 3000);
+    //   } else {
+    //     console.log();
+    //     if (res.error.statusCode == 401) {
+    //       setError({ error: res.error.name, discription: res.error.message });
+    //     } else if (res.error.statusCode == 400) {
+    //       setError({ error: res.error.name, discription: res.error.message });
+    //     } else {
+    //       setError({ error: res.error.name, discription: res.error.message });
+    //     }
+    //   }
+    //   setTimeout(() => {
+    //     setErrorTimeFlag(true);
+    //     setError({ error: "", discription: "" });
+    //   }, 5000);
+    // });
+    var ErrMsg = "An error occurred during login!!!";
+    const examplePromise = RequestLogin(info).then((res) => {
       if (res.status) {
         _Cookies().saveOnCookies(res.jwt);
         _Cookies().tokenExist();
@@ -67,19 +70,33 @@ const Login: React.FC = () => {
           window.location.replace("http://localhost:3001");
         }, 3000);
       } else {
-        console.log();
-        if (res.error.statusCode == 401) {
-          setError({ error: res.error.name, discription: res.error.message });
-        } else if (res.error.statusCode == 400) {
-          setError({ error: res.error.name, discription: res.error.message });
+        if (res.error.statusCode === 401 || res.error.statusCode === 400) {
+          ErrMsg = res.error.message;
+          setError({ error: "", discription: ErrMsg });
+          throw new Error(res.error.message);
         } else {
-          setError({ error: res.error.name, discription: res.error.message });
+          throw new Error("An error occurred during login");
         }
       }
       setTimeout(() => {
         setErrorTimeFlag(true);
         setError({ error: "", discription: "" });
       }, 5000);
+    });
+
+    toast.promise(examplePromise, {
+      success: {
+        title: "Login Success",
+        description: "",
+      },
+      error: {
+        title: "Login Error",
+        description: error.discription,
+      },
+      loading: {
+        title: "Logging in",
+        description: "Please wait while we process your request",
+      },
     });
   };
   const LinkToSignup: React.FC = () => {
@@ -123,9 +140,6 @@ const Login: React.FC = () => {
   return (
     <>
       <Background />
-      {error.error && !errorTimeFlag ? (
-        <LoginsErrors toast={toast} data={error} />
-      ) : null}
 
       <Center
         zIndex={99}
