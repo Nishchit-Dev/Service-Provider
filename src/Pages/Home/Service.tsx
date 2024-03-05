@@ -9,32 +9,59 @@ let InputStyle = {
 const Services: React.FC = () => {
   return (
     <>
-      <Flex flexDirection={"row"} gap={"50px"}>
+      <Flex
+        margin={"50px 0"}
+        flexDirection={"column"}
+        gap={"50px"}
+        justifyContent={"center"}
+        alignItems={"center"}
+      >
         <Flex
-          flexDirection={"column"}
+          flexDirection={"row"}
+          gap={"30px"}
           justifyContent={"flex-start"}
           justifyItems={"flex-start"}
         >
           <Flex
+            w="200px"
+            borderRadius={"10px"}
+            bg={"ntl.300"}
+            padding={"20px"}
+            cursor={"pointer"}
             gap={"20px"}
             justifyContent={"flex-start"}
             alignItems={"center"}
+            // w="150px"
+            flexDirection={"column"}
           >
             <Box
               h="120px"
               w="120px"
-              bg={"#61B87A"}
+              bg={"#A0ACAC"}
               borderRadius={"full"}
               backgroundSize={"250px"}
               backgroundImage={`url("/Assets/Services/Electrical.png")`}
               style={{ backgroundPositionX: "center" }}
             ></Box>
-            <Text style={InputStyle}>Home Appliances and Electrical</Text>
+            <Text
+              textAlign={"center"}
+              wordBreak={"break-all"}
+              style={InputStyle}
+            >
+              Home Appliances
+              <br /> & Electrical
+            </Text>
           </Flex>
           <Flex
+            borderRadius={"10px"}
+            bg={"ntl.300"}
+            padding={"20px"}
+            w="200px"
+            cursor={"pointer"}
             gap={"20px"}
             justifyContent={"flex-start"}
             alignItems={"center"}
+            flexDirection={"column"}
           >
             <Box
               h="120px"
@@ -48,14 +75,20 @@ const Services: React.FC = () => {
             <Text style={InputStyle}>Home Cleaning</Text>
           </Flex>
           <Flex
+            borderRadius={"10px"}
+            bg={"ntl.300"}
+            w="200px"
+            padding={"20px"}
+            cursor={"pointer"}
             gap={"20px"}
+            flexDirection={"column"}
             justifyContent={"flex-start"}
             alignItems={"center"}
           >
             <Box
               h="120px"
               w="120px"
-              bg={"#61B87A"}
+              bg={"#7376A6"}
               borderRadius={"full"}
               backgroundSize={"220px"}
               backgroundImage={`url("/Assets/Services/LaptopRepair.png")`}
@@ -64,17 +97,21 @@ const Services: React.FC = () => {
             ></Box>
             <Text style={InputStyle}>Computer Repair</Text>
           </Flex>
-        </Flex>
-        <Flex flexDirection={"column"}>
           <Flex
+            borderRadius={"10px"}
+            bg={"ntl.300"}
+            w="200px"
+            padding={"20px"}
+            cursor={"pointer"}
             gap={"20px"}
             justifyContent={"flex-start"}
             alignItems={"center"}
+            flexDirection={"column"}
           >
             <Box
               h="120px"
               w="120px"
-              bg={"#61B87A"}
+              bg={"#EAB173"}
               borderRadius={"full"}
               backgroundSize={"250px"}
               backgroundImage={`url("/Assets/Services/mover.png")`}
@@ -82,15 +119,23 @@ const Services: React.FC = () => {
             ></Box>
             <Text style={InputStyle}> Packaging and Moving </Text>
           </Flex>
+        </Flex>
+        <Flex flexDirection={"row"} gap={"30px"}>
           <Flex
+            borderRadius={"10px"}
+            bg={"ntl.300"}
+            padding={"20px"}
+            w="200px"
+            cursor={"pointer"}
             gap={"20px"}
+            flexDirection={"column"}
             justifyContent={"flex-start"}
             alignItems={"center"}
           >
             <Box
               h="120px"
               w="120px"
-              bg={"#61B87A"}
+              bg={"#FCA216"}
               borderRadius={"full"}
               backgroundSize={"250px"}
               backgroundImage={`url("/Assets/Services/plumbing.png")`}
@@ -99,14 +144,20 @@ const Services: React.FC = () => {
             <Text style={InputStyle}>plumbing</Text>
           </Flex>
           <Flex
+            borderRadius={"10px"}
+            bg={"ntl.300"}
+            w="200px"
+            padding={"20px"}
+            cursor={"pointer"}
             gap={"20px"}
+            flexDirection={"column"}
             justifyContent={"flex-start"}
             alignItems={"center"}
           >
             <Box
               h="120px"
               w="120px"
-              bg={"#61B87A"}
+              bg={"#E6E6E6"}
               borderRadius={"full"}
               backgroundSize={"250px"}
               backgroundImage={`url("/Assets/Services/tutoring.png")`}

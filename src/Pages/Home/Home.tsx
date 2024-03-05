@@ -14,14 +14,15 @@ const ServiceDisplay = () => {
     { url: "/Assets/Services/PlumbingServices.png" },
   ];
   return (
-    <Center w="100%" flexDir={"column"} flex={1} padding={"10px 0 0 0 "} >
+    <Center w="100%" flexDir={"column"} flex={1} padding={"10px 0 0 0 "}   >
       <SimpleImageSlider
-        width="1200px"
+        width="1000px"
         height={"600px"}
         autoPlay={true}
         autoPlayDelay={5}
+        bgColor="transparent"
         images={images}
-        style={{borderRadius:"9px",minWidth:"600px"}}
+        style={{minWidth:"600px"}}
         showBullets={false}
         slideDuration={3}
         showNavs={true}
