@@ -26,8 +26,6 @@ const ProfileTab: React.FC = () => {
   return (
     <>
       <Layout children={userData ? <ProfileTabs /> : null} />
-
-      {/* <Outlet /> */}
     </>
   );
 };
