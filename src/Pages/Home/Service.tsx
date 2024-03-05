@@ -1,4 +1,4 @@
-import { Box, Flex, Img, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Img, Text } from "@chakra-ui/react";
 import React from "react";
 let InputStyle = {
   boxShadow: "none",
@@ -103,6 +103,7 @@ const Services: React.FC = () => {
             w="200px"
             padding={"20px"}
             cursor={"pointer"}
+            textAlign={"center"}
             gap={"20px"}
             justifyContent={"flex-start"}
             alignItems={"center"}
@@ -164,6 +165,33 @@ const Services: React.FC = () => {
               style={{ backgroundPositionX: "center" }}
             ></Box>
             <Text style={InputStyle}>Tutoring</Text>
+          </Flex>
+          <Flex
+            borderRadius={"10px"}
+            bg={"#5C5C59"}
+            w="200px"
+            padding={"20px"}
+            cursor={"pointer"}
+            gap={"20px"}
+            flexDirection={"column"}
+            justifyContent={"center"}
+            alignItems={"center"}
+          >
+            <Flex
+              justifyContent={"center"}
+              alignItems={"center"}
+              h="120px"
+              textAlign={"center"}
+              color={"white"}
+              gap={"20px"}
+              w="120px"
+              flexDir={"column"}
+              backgroundSize={"250px"}
+              style={{ backgroundPositionX: "center" }}
+            >
+              <Text style={InputStyle}>Explore more categories</Text>
+              <Button>Explore More</Button>
+            </Flex>
           </Flex>
         </Flex>
       </Flex>
