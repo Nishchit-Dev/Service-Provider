@@ -1,4 +1,4 @@
-import { EditIcon, DeleteIcon } from "@chakra-ui/icons";
+import { EditIcon, DeleteIcon, ChevronDownIcon } from "@chakra-ui/icons";
 import {
   Modal,
   ModalOverlay,
@@ -16,7 +16,19 @@ import {
   Center,
 } from "@chakra-ui/react";
 
+import {
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  MenuItemOption,
+  MenuGroup,
+  MenuOptionGroup,
+  MenuDivider,
+} from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
+import { CallAddService, CallFetchServiceCategories } from "./api/Api.ts";
+import services from "../utility/categories.ts";
 
 const padding = {
   padding: "15px 30px",
@@ -24,6 +36,35 @@ const padding = {
   boxShadow: "xl",
 };
 
+const OptionContainer = ({ formData, setFormData }) => {
+  const [serviceName, setServiceName] = useState("");
+
+  return (
+    <>
+      <Menu>
+        <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+          {serviceName == "" ? "choose" : serviceName}
+        </MenuButton>
+        <MenuList>
+          {services.map((data, id) => {
+            return (
+              <MenuItem
+                key={id}
+                onClick={() => {
+                  console.log(data.id);
+                  setServiceName(data.name);
+                  setFormData({ ...formData, serviceCategoryId: data.id });
+                }}
+              >
+                {data.name}
+              </MenuItem>
+            );
+          })}
+        </MenuList>
+      </Menu>
+    </>
+  );
+};
 const ServiceContainer = ({ formData, setFormData }) => {
   const handleInputChange = (e, field) => {
     const { value } = e.target;
@@ -54,6 +95,10 @@ const ServiceContainer = ({ formData, setFormData }) => {
               borderRadius={"9px"}
             />
           </Flex>
+          <Flex justifyContent={"flex-start"} alignItems={"center"} gap={"5px"}>
+            <Text>Category</Text>
+            <OptionContainer formData={formData} setFormData={setFormData} />
+          </Flex>
           <Flex
             flexDir={"row"}
             gap={"5px"}
@@ -61,7 +106,12 @@ const ServiceContainer = ({ formData, setFormData }) => {
             justifyContent={"space-between"}
             alignItems={"center"}
           >
-            <Flex flexDir={"row"} flex={1} gap={"5px"} justifyContent={"space-between"}>
+            <Flex
+              flexDir={"row"}
+              flex={1}
+              gap={"5px"}
+              justifyContent={"space-between"}
+            >
               <Flex flexDir={"column"} gap={"3px"} flex={1}>
                 <Text color={"ntl.400"}>Name</Text>
                 <Input
@@ -132,7 +182,6 @@ const ServiceContainer = ({ formData, setFormData }) => {
             <Flex></Flex>
           </Flex>
         </Flex>
-
       </Flex>
     </>
   );
@@ -142,6 +191,7 @@ function BasicUsage() {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [formData, setFormData] = useState({
+    serviceCategoryId: "",
     name: "",
     companyName: "",
     description: "",
@@ -152,7 +202,24 @@ function BasicUsage() {
     price: "",
     website: "",
   });
-
+  const handleClick = (e) => {
+    CallAddService(formData);
+    setFormData({
+      serviceCategoryId: "",
+      name: "",
+      companyName: "",
+      description: "",
+      email: "",
+      phoneNumber: "",
+      address: "",
+      availability: "",
+      price: "",
+      website: "",
+    });
+  };
+  useEffect(() => {
+    CallFetchServiceCategories();
+  }, []);
   return (
     <>
       <Button
@@ -176,7 +243,13 @@ function BasicUsage() {
           </ModalBody>
 
           <ModalFooter>
-            <Button borderRadius={"full"} bg={"#A1DD70"} color={"white"} _hover={{ bg: "#81C54A" }}>
+            <Button
+              onClick={handleClick}
+              borderRadius={"full"}
+              bg={"#A1DD70"}
+              color={"white"}
+              _hover={{ bg: "#81C54A" }}
+            >
               Add Service
             </Button>
           </ModalFooter>

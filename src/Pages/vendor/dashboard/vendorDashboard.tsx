@@ -1,6 +1,6 @@
 import React from "react";
 import Layout, { VendorLayout } from "../../layout/Layout.tsx";
-import { Box, Center, Divider, Flex, Icon, Text } from "@chakra-ui/react";
+import { Box, Center, Divider, Flex, Icon, Img, Text } from "@chakra-ui/react";
 import { ArrowUpIcon, CalendarIcon } from "@chakra-ui/icons";
 
 const padding = {
@@ -18,8 +18,8 @@ const RawContentVendorDashboard = () => {
             </Text>
           </Flex>
           <Divider m={"30px 10px"} />
-          <Flex gap={"10px"} w={"100%"}>
-            <Flex>
+          <Flex gap={"10px"} w={"100%"} flexWrap={"wrap"} >
+            <Flex >
               <Flex
                 flexDirection={"column"}
                 flex={1}
@@ -42,6 +42,19 @@ const RawContentVendorDashboard = () => {
                     23,325
                   </Text>
                   <Text>Total Appointments</Text>
+                </Flex>
+                <Divider />
+
+                <Flex
+                  flexDir={"column"}
+                  flex={1}
+                  cursor={"pointer"}
+                  m={"5px 0 0 0 "}
+                  _hover={{ bg: "#E7F8F5", borderRadius: "10px" }}
+                >
+                  <Text m="10px" textAlign={"center"}>
+                    Check Appointments
+                  </Text>
                 </Flex>
               </Flex>
             </Flex>
@@ -70,6 +83,92 @@ const RawContentVendorDashboard = () => {
                   186
                 </Text>
                 <Text>Total Posted Services</Text>
+              </Flex>
+              <Divider />
+
+              <Flex
+                flexDir={"column"}
+                flex={1}
+                cursor={"pointer"}
+                m={"5px 0 0 0 "}
+                _hover={{ bg: "#F1EEFF", borderRadius: "10px" }}
+              >
+                <Text m="10px" textAlign={"center"}>
+                  Check Services
+                </Text>
+              </Flex>
+            </Flex>
+            <Flex
+              flexDirection={"column"}
+              style={padding}
+              bg={"white"}
+              boxShadow={"xl"}
+              minWidth={"250px"}
+              borderRadius={"14px"}
+            >
+              <Flex bg={"#F1EEFF"} borderRadius={"full"} w={"fit-content"}>
+                <Img w={"115px"} src="/Assets/discount.svg" color={"#7357FB"} />
+              </Flex>
+              <Flex m={"30px 0"} flexDir={"column"}>
+                <Text fontWeight={"600"} fontSize={"32px"}>
+                  Discount
+                </Text>
+                <Text>
+                  Give Discounts on special
+                  {/* <br /> events */}
+                </Text>
+              </Flex>
+              <Divider />
+
+              <Flex
+                flexDir={"column"}
+                m={"5px 0 0 0 "}
+                _hover={{ bg: "#FFF2D2", borderRadius: "10px" }}
+                flex={1}
+                cursor={"pointer"}
+              >
+                <Text m="10px" textAlign={"center"}>
+                  Check Discounts
+                </Text>
+              </Flex>
+            </Flex>
+
+            <Flex
+              flexDirection={"column"}
+              style={padding}
+              bg={"white"}
+              boxShadow={"xl"}
+              minWidth={"250px"}
+              borderRadius={"14px"}
+            >
+              <Flex
+                bg={"#F1EEFF"}
+                padding={"28px"}
+                borderRadius={"full"}
+                w={"fit-content"}
+              >
+                <Flex bg={"#F1EEFF"} borderRadius={"full"} w={"fit-content"}>
+                  <Img w={"60px"} src="/Assets/invoice.svg" color={"#7357FB"} />
+                </Flex>
+              </Flex>
+              <Flex m={"30px 0"} flexDir={"column"}>
+                <Text fontWeight={"600"} fontSize={"32px"}>
+                  Invoices
+                </Text>
+                <Text>See all Invoices</Text>
+              </Flex>
+              <Divider />
+
+              <Flex
+                flexDir={"column"}
+                flex={1}
+                cursor={"pointer"}
+                m={"5px 0 0 0 "}
+                _hover={{ bg: "#E0DFFF", borderRadius: "10px" }}
+              >
+                <Text m="10px" textAlign={"center"}>
+                  Check Invoices
+                </Text>
               </Flex>
             </Flex>
           </Flex>
