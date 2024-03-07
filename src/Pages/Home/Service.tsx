@@ -74,15 +74,18 @@ const Services: React.FC = () => {
             ></Box>
             <Text style={InputStyle}>Home Cleaning</Text>
           </Flex>
+
           <Flex
             borderRadius={"10px"}
             bg={"ntl.300"}
+            
             w="200px"
             padding={"20px"}
             cursor={"pointer"}
             gap={"20px"}
             flexDirection={"column"}
             justifyContent={"flex-start"}
+            backdropFilter={"blur(0px)"}
             alignItems={"center"}
           >
             <Box
@@ -97,6 +100,7 @@ const Services: React.FC = () => {
             ></Box>
             <Text style={InputStyle}>Computer Repair</Text>
           </Flex>
+
           <Flex
             borderRadius={"10px"}
             bg={"ntl.300"}

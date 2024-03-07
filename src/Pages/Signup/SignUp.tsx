@@ -134,7 +134,7 @@ const SignUp: React.FC = () => {
         w={"100%"}
         top={"0vh"}
       >
-        <Center borderRadius={"12px"} boxShadow={"2xl"}>
+        <Center borderRadius={"12px"} bg={"white"} boxShadow={"2xl"}>
           <Flex
             direction={"column"}
             justifyContent={"center"}

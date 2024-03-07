@@ -4,6 +4,7 @@ import {
   Button,
   Center,
   Flex,
+  Img,
   Input,
   Text,
   useToast,
@@ -150,7 +151,7 @@ const _ChangePassword: React.FC = () => {
                     });
                   console.log(result);
 
-                  let err =await result.catch((err) => {
+                  let err = await result.catch((err) => {
                     console.log(err);
                     return err;
                   });

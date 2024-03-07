@@ -38,36 +38,20 @@ const Login: React.FC = () => {
       email: email,
       password: password,
     };
-    // RequestLogin(info).then((res) => {
-    //   console.log(res);
-    //   if (res.status) {
-    //     _Cookies().saveOnCookies(res.jwt);
-    //     _Cookies().tokenExist();
-    //     setTimeout(() => {
-    //       window.location.replace("http://localhost:3001");
-    //     }, 3000);
-    //   } else {
-    //     console.log();
-    //     if (res.error.statusCode == 401) {
-    //       setError({ error: res.error.name, discription: res.error.message });
-    //     } else if (res.error.statusCode == 400) {
-    //       setError({ error: res.error.name, discription: res.error.message });
-    //     } else {
-    //       setError({ error: res.error.name, discription: res.error.message });
-    //     }
-    //   }
-    //   setTimeout(() => {
-    //     setErrorTimeFlag(true);
-    //     setError({ error: "", discription: "" });
-    //   }, 5000);
-    // });
     var ErrMsg = "An error occurred during login!!!";
     const examplePromise = RequestLogin(info).then((res) => {
       if (res.status) {
+        console.log(res);
         _Cookies().saveOnCookies(res.jwt);
+        _Cookies().saveUserType(res.userType);
+
         _Cookies().tokenExist();
         setTimeout(() => {
-          window.location.replace("http://localhost:3001");
+          if (res.userType == "customer") {
+            window.location.replace("http://localhost:3001");
+          } else {
+            window.location.replace("http://localhost:3001/vendor");
+          }
         }, 3000);
       } else {
         if (res.error.statusCode === 401 || res.error.statusCode === 400) {
@@ -142,14 +126,13 @@ const Login: React.FC = () => {
       <Background />
 
       <Center
-        zIndex={99}
         h="100vh"
         gap={"100px"}
         position={"absolute"}
         w={"100%"}
         top={"0vh"}
       >
-        <Center borderRadius={"12px"} boxShadow={"2xl"}>
+        <Center borderRadius={"12px"} boxShadow={"2xl"} bg={"white"}>
           <Flex
             direction={"column"}
             justifyContent={"center"}
@@ -233,9 +216,6 @@ const Login: React.FC = () => {
             </Flex>
           </Flex>
         </Center>
-        {/* <Flex w="auto">
-          <Img src="/Assets/SignupRight.png" w="inherit" height={"100vh"} />
-        </Flex> */}
       </Center>
     </>
   );

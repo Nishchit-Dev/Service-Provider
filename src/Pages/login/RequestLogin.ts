@@ -11,10 +11,20 @@ export const RequestLogin = async (info: info) => {
   try {
     return await axios.post(host, info).then((res) => {
       console.log(res.data);
-      return { status: true, jwt: res.data, error: null };
+      return {
+        status: true,
+        jwt: res.data.jwt,
+        error: null,
+        userType: res.data.userType,
+      };
     });
   } catch (err) {
     console.log(err.response.data.error);
-    return { status: false, jwt: null, error: err.response.data.error };
+    return {
+      status: false,
+      jwt: null,
+      error: err.response.data.error,
+      userType: null,
+    };
   }
 };

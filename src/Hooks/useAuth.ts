@@ -21,6 +21,11 @@ export const _Cookies = () => {
       Cookies.set("JWT", jwt);
     }
   };
+  const saveUserType = (type: string) => {
+    if (type) {
+      Cookies.set("user", type);
+    }
+  };
 
   const getFromCookies = () => {
     let jwt = Cookies.get("JWT");
@@ -28,7 +33,16 @@ export const _Cookies = () => {
   };
   const resetCookies = () => {
     Cookies.remove("JWT");
-    console.log("removed jwt")
+    console.log("removed jwt");
+  };
+
+  const getUserType = () => {
+    let userType = Cookies.get("user");
+    console.log(userType);
+
+    if (userType) {
+      return userType;
+    }
   };
   const tokenExist = () => {
     let jwt = Cookies.get("JWT");
@@ -40,5 +54,12 @@ export const _Cookies = () => {
     }
   };
 
-  return { saveOnCookies, getFromCookies, tokenExist, resetCookies };
+  return {
+    saveOnCookies,
+    getFromCookies,
+    tokenExist,
+    resetCookies,
+    getUserType,
+    saveUserType,
+  };
 };

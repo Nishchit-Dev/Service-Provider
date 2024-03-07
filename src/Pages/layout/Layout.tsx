@@ -1,6 +1,9 @@
 import React from "react";
-import NavComponents from "../../ChakraComponents/Nav/navigatoin.tsx";
+import NavComponents, {
+  VendorNavComponent,
+} from "../../ChakraComponents/Nav/navigatoin.tsx";
 import { Flex } from "@chakra-ui/react";
+import { _Cookies } from "../../Hooks/useAuth.ts";
 
 const Wrapper = ({ child }) => {
   return (
@@ -12,7 +15,13 @@ const Wrapper = ({ child }) => {
       borderRadius={"14px"}
       padding={"30px 25px"}
     >
-      <Flex flex={1} bg="white" borderRadius={"7px"} bgImage={"/Assets/webEffectBg.svg"}>
+      <Flex
+        flex={1}
+        w="100%"
+        bg="white"
+        borderRadius={"7px"}
+        bgImage={"/Assets/webEffectBg1.svg"}
+      >
         {child}
       </Flex>
     </Flex>
@@ -20,9 +29,29 @@ const Wrapper = ({ child }) => {
 };
 
 export default function Layout({ children }) {
+  const userType = _Cookies().getUserType();
+
+
   return (
     <>
-      <NavComponents Kids={<Wrapper child={children} /> || <></>} />
+      {userType == "customer" ? (
+        <>
+          {" "}
+          <NavComponents Kids={<Wrapper child={children} /> || <></>} />
+        </>
+      ) : (
+        <>
+          <VendorNavComponent Kids={<Wrapper child={children} /> || <></>} />
+        </>
+      )}
     </>
   );
 }
+
+export const VendorLayout = ({ childern }) => {
+  return (
+    <>
+      <VendorNavComponent Kids={<Wrapper child={childern} /> || <></>} />
+    </>
+  );
+};

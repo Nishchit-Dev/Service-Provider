@@ -7,7 +7,7 @@ import {
   Input,
   Text,
 } from "@chakra-ui/react";
-import React, { Dispatch, useState } from "react";
+import React, { Dispatch, useEffect, useState } from "react";
 import {
   Step,
   StepDescription,
@@ -25,6 +25,8 @@ import { PinInput, PinInputField } from "@chakra-ui/react";
 
 import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
 import { CallResetPassword } from "../../Hooks/useResetPassword.ts";
+import { CheckIcon, CloseIcon } from "@chakra-ui/icons";
+import { Background } from "../../ChakraComponents/background/Background.tsx";
 
 let InputStyle = {
   boxShadow: "none",
@@ -44,7 +46,7 @@ const steps = [
 const Steps: React.FC<StepsProps> = ({ activeStep }) => {
   return (
     <>
-      <Stepper size="lg" index={activeStep}>
+      <Stepper size="lg" index={activeStep} colorScheme="green">
         {steps.map((step, index) => (
           <>
             <Step key={index}>
@@ -68,34 +70,103 @@ const Steps: React.FC<StepsProps> = ({ activeStep }) => {
     </>
   );
 };
+interface StatusProp {
+  status: boolean;
+}
 interface TabProps {
   setIndex: Dispatch<React.SetStateAction<number>>;
 }
 interface RestTabProps {
   setIndex: Dispatch<React.SetStateAction<number>>;
   id: string;
+  status: Dispatch<React.SetStateAction<boolean>>;
 }
 interface VeriftyTabProps {
   setIndex: Dispatch<React.SetStateAction<number>>;
   setUserId: Dispatch<React.SetStateAction<string>>;
 }
-const Success: React.FC = () => {
+const Success: React.FC<StatusProp> = ({ status }) => {
+  useEffect(() => {
+    if (status) {
+      setTimeout(() => {
+        window.location.replace("/login");
+        console.log("/resetpswd");
+      }, 2000);
+    }
+  }, [status]);
   return (
     <Center borderRadius={"12px"} boxShadow={"2xl"}>
       <Flex
         direction={"column"}
         justifyContent={"center"}
-        alignContent={"center"}
+        alignItems={"center"}
         margin={"60px 25px"}
         padding={"10px"}
         gap={"20px"}
       >
-        <Text fontFamily={"Poppins"} fontWeight={"700"} fontSize={"24px"} color={"#A1DD70"}>Password Changed Succesfully</Text>
+        <CheckIcon
+          boxSize={16}
+          padding={"10px"}
+          margin={"20px"}
+          borderRadius={"full"}
+          color={"white"}
+          bg={"#38A169"}
+        />
+
+        <Text
+          fontFamily={"Poppins"}
+          fontWeight={"500"}
+          fontSize={"24px"}
+          color={"ntl.400"}
+        >
+          Password Changed Succesfully
+        </Text>
       </Flex>
     </Center>
   );
 };
-const ResetPassword: React.FC<RestTabProps> = ({ setIndex, id }) => {
+const Failure: React.FC<StatusProp> = ({ status }) => {
+  useEffect(() => {
+    if (status) {
+      setTimeout(() => {
+        window.location.replace("/restpswd");
+        console.log("/resetpswd");
+      }, 2000);
+    }
+  }, [status]);
+  return (
+    <Center borderRadius={"12px"} boxShadow={"2xl"}>
+      <Flex
+        direction={"column"}
+        justifyContent={"center"}
+        alignItems={"center"}
+        margin={"60px 25px"}
+        padding={"10px"}
+        gap={"20px"}
+      >
+        <CloseIcon
+          boxSize={16}
+          padding={"10px"}
+          margin={"20px"}
+          borderRadius={"full"}
+          color={"white"}
+          bg={"#FF746B"}
+        />
+
+        <Text
+          fontFamily={"Poppins"}
+          fontWeight={"500"}
+          fontSize={"20px"}
+          color={"ntl.400"}
+        >
+          Error occured while changing password
+        </Text>
+      </Flex>
+    </Center>
+  );
+};
+
+const ResetPassword: React.FC<RestTabProps> = ({ setIndex, id, status }) => {
   const [pass, setPass] = useState("");
   const [conPass, setConPass] = useState("");
 
@@ -173,6 +244,11 @@ const ResetPassword: React.FC<RestTabProps> = ({ setIndex, id }) => {
                 .ResetPassword(data)
                 .then((data) => {
                   console.log(data);
+                  status(true);
+                })
+                .catch((err) => {
+                  console.log(err);
+                  status(false);
                 });
             }}
           >
@@ -326,6 +402,7 @@ const RestPassword: React.FC = () => {
     index: 0,
     count: steps.length,
   });
+  const [status, setStatus] = useState(false);
   const [userId, setUserId] = useState("");
   console.log(activeStep);
   return (
@@ -341,7 +418,18 @@ const RestPassword: React.FC = () => {
               <VerifiyOTP setIndex={setActiveStep} setUserId={setUserId} />
             </TabPanel>
             <TabPanel>
-              <ResetPassword setIndex={setActiveStep} id={userId} />
+              <ResetPassword
+                setIndex={setActiveStep}
+                id={userId}
+                status={setStatus}
+              />
+            </TabPanel>
+            <TabPanel>
+              {status ? (
+                <Success status={status} />
+              ) : (
+                <Failure status={status} />
+              )}
             </TabPanel>
           </TabPanels>
         </Tabs>
