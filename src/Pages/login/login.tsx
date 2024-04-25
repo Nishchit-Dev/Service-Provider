@@ -50,7 +50,7 @@ const Login: React.FC = () => {
           if (res.userType == "customer") {
             window.location.replace("http://localhost:3001");
           } else {
-            window.location.replace("http://localhost:3001/vendor");
+            window.location.replace("http://localhost:3001/vendor/Dashboard");
           }
         }, 3000);
       } else {

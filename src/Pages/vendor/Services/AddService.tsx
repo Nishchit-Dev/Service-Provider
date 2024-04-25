@@ -14,6 +14,8 @@ import {
   Input,
   Text,
   Center,
+  useToast,
+  Toast,
 } from "@chakra-ui/react";
 
 import {
@@ -36,7 +38,7 @@ const padding = {
   boxShadow: "xl",
 };
 
-const OptionContainer = ({ formData, setFormData }) => {
+const OptionContainer = ({ formData, setFormData, setImg }) => {
   const [serviceName, setServiceName] = useState("");
 
   return (
@@ -53,6 +55,7 @@ const OptionContainer = ({ formData, setFormData }) => {
                 onClick={() => {
                   console.log(data.id);
                   setServiceName(data.name);
+                  setImg(data.img);
                   setFormData({ ...formData, serviceCategoryId: data.id });
                 }}
               >
@@ -66,6 +69,7 @@ const OptionContainer = ({ formData, setFormData }) => {
   );
 };
 const ServiceContainer = ({ formData, setFormData }) => {
+  const [img, setImg] = useState("https://www.shutterstock.com/image-photo/working-man-plumber-repairs-washing-600nw-1051194281.jpg");
   const handleInputChange = (e, field) => {
     const { value } = e.target;
     setFormData({
@@ -91,13 +95,19 @@ const ServiceContainer = ({ formData, setFormData }) => {
           <Flex flex={1}>
             <Img
               objectFit={"cover"}
-              src="https://media.istockphoto.com/id/1485512746/photo/plumbers-tool-bag-on-floor-under-kitchen-sink.jpg?s=1024x1024&w=is&k=20&c=I7noVy8Sse6mrgWFUHzpI-deY2-ToGl14P8-DSwFa78="
+              src={img}
+              w="700px" h={"350px"}
+              objectPosition={"contain"}
               borderRadius={"9px"}
             />
           </Flex>
           <Flex justifyContent={"flex-start"} alignItems={"center"} gap={"5px"}>
             <Text>Category</Text>
-            <OptionContainer formData={formData} setFormData={setFormData} />
+            <OptionContainer
+              formData={formData}
+              setFormData={setFormData}
+              setImg={setImg}
+            />
           </Flex>
           <Flex
             flexDir={"row"}
@@ -189,7 +199,7 @@ const ServiceContainer = ({ formData, setFormData }) => {
 
 function BasicUsage() {
   const { isOpen, onOpen, onClose } = useDisclosure();
-
+  const Toast = useToast({ position: "top" });
   const [formData, setFormData] = useState({
     serviceCategoryId: "",
     name: "",
@@ -203,19 +213,14 @@ function BasicUsage() {
     website: "",
   });
   const handleClick = (e) => {
-    CallAddService(formData);
-    setFormData({
-      serviceCategoryId: "",
-      name: "",
-      companyName: "",
-      description: "",
-      email: "",
-      phoneNumber: "",
-      address: "",
-      availability: "",
-      price: "",
-      website: "",
-    });
+    CallAddService(formData)
+      .then((res) => {
+        Toast({ status: "success", title: "Service Added Successfully" });
+        onClose();
+      })
+      .catch((err) => {
+        Toast({ status: "error", title: "failed to add service" });
+      });
   };
   useEffect(() => {
     CallFetchServiceCategories();

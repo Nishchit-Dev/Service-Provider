@@ -15,7 +15,9 @@ interface Data {
 }
 export const CallAddService = async (serviceInfo: Data) => {
   const jwt = _Cookies().getFromCookies();
-  console.log("hello");
+  console.log(jwt);
+
+  console.log(serviceInfo);
   const AxiosInstance = axios.create({
     baseURL: "http://localhost:3000",
     headers: {
@@ -68,7 +70,64 @@ export const CallNewServices = async () => {
   }
 };
 
-export const CallFetchServiceCategories = async() => {
+interface uploadDataType {
+  serviceId: string;
+  address: string;
+  availability: string;
+  companyName: string;
+  description: string;
+  email: string;
+  id: string;
+  name: string;
+  phoneNumber: string;
+  price: string;
+  serviceCategoryId: string;
+  website: string;
+}
+
+export const CallUpdateServices = async (payload: uploadDataType) => {
+ 
+  
+  const jwt = _Cookies().getFromCookies();
+  // console.log(payload);
+  const AxiosInstance = axios.create({
+    baseURL: "http://localhost:3000",
+    headers: {
+      Authorization: `Bearer ${jwt}`,
+    },
+  });
+  try {
+    const res = await AxiosInstance.post("/services/update-service", payload);
+    console.log(res.data);
+    return res.data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+interface deletePayload {
+  serviceId: string;
+}
+
+export const CallDeleteService = async (payload: deletePayload) => {
+  const jwt = _Cookies().getFromCookies();
+  console.log(payload);
+  const AxiosInstance = axios.create({
+    baseURL: "http://localhost:3000",
+    headers: {
+      Authorization: `Bearer ${jwt}`,
+    },
+  });
+  try {
+    const res = await AxiosInstance.post("/services/delete-service", payload);
+    console.log(res.data);
+    return res.data;
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+};
+export const CallFetchServiceCategories = async () => {
   const AxiosInstance = axios.create({
     baseURL: "http://localhost:3000",
   });

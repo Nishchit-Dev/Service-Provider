@@ -19,6 +19,8 @@ import ProctedRoutes from "./ProtectedRoutes.tsx";
 import VendorSignUp from "./vendor/Signup/SignUp.tsx";
 import VendorHistory from "./vendor/History/History.tsx";
 import RawContentManageService from "./vendor/Services/ManageService.tsx";
+import HistoryPage from "./History/History.tsx";
+import { Checkout } from "./Cart/cart.tsx";
 
 const BrowserRouter = () => {
   return (
@@ -29,6 +31,11 @@ const BrowserRouter = () => {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/restpswd" element={<RestPassword />} />
         <Route path="/service" element={<Services />} />
+        <Route path="/history" element={<HistoryPage />} />
+        <Route
+          path="/checkout"
+          element={<ProctedRoutes childern={<Checkout />} />}
+        />
 
         <Route path="vendor" element={<Vendor />}>
           <Route
@@ -49,7 +56,7 @@ const BrowserRouter = () => {
             path="history"
             element={<ProctedRoutes childern={<VendorHistory />} />}
           />
-           <Route
+          <Route
             path="services"
             element={<ProctedRoutes childern={<RawContentManageService />} />}
           />

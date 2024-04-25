@@ -9,19 +9,37 @@ import {
   FormLabel,
   Spinner,
   Center,
+  Toast,
+  useToast,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import Layout from "../../layout/Layout.tsx";
-import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
+import {
+  AtSignIcon,
+  DeleteIcon,
+  EditIcon,
+  EmailIcon,
+  ExternalLinkIcon,
+  PhoneIcon,
+  StarIcon,
+  TimeIcon,
+} from "@chakra-ui/icons";
 import BasicUsage from "./AddService.tsx";
-import { CallAddService, CallMyService } from "./api/Api.ts";
+import {
+  CallAddService,
+  CallDeleteService,
+  CallMyService,
+  CallUpdateServices,
+} from "./api/Api.ts";
+import ApplyDiscount from "./ApplyDiscounts.tsx";
+import { ImgFromId } from "../utility/categories.ts";
 
 const padding = {
   padding: "15px 30px 25px 25px",
-  
 };
 
 interface ServiceDataType {
+  serviceId: string;
   address: string;
   availability: string;
   companyName: string;
@@ -45,7 +63,8 @@ const ServiceContainer = ({
   id: string;
   data: ServiceDataType;
 }) => {
-  const [formData, setFormData] = useState(data);
+  const toast = useToast({ position: "top" });
+  const [formData, setFormData] = useState<ServiceDataType>(data);
   const handleInputChange = (e, field) => {
     const { value } = e.target;
     setFormData({
@@ -55,24 +74,56 @@ const ServiceContainer = ({
   };
   const TextInData = () => {
     return (
-      <Flex flexDirection={"row"} gap={"20px"}>
-        <Flex flexDirection={"column"} gap={"5px"}>
-          <Text fontWeight={"700"} fontSize={"20px"}>
-            {formData.name}
-          </Text>
-          <Text color={"ntl.400"}>{formData.companyName}</Text>
+      <>
+        <Flex flexDir={"column"}>
+          <Flex flexDirection={"row"} gap={"20px"} key={id}>
+            <Flex flexDirection={"column"} gap={"5px"}>
+              <Text fontWeight={"700"} fontSize={"20px"}>
+                {formData.name}
+              </Text>
+              <Text color={"ntl.400"}>{formData.companyName}</Text>
+              <Flex gap={"10px"} flexDir={"row"} alignItems={"center"}>
+                <TimeIcon />
+                <Text color={"ntl.400"}>{formData.availability}</Text>
+              </Flex>
+
+              <Flex gap={"10px"} flexDir={"row"} alignItems={"center"}>
+                <EmailIcon />
+                <Text color={"ntl.400"}> {formData.email}</Text>
+              </Flex>
+
+              <Flex gap={"10px"} flexDir={"row"} alignItems={"center"}>
+                <PhoneIcon />
+                <Text color={"ntl.400"}> {formData.phoneNumber}</Text>
+              </Flex>
+            </Flex>
+            <Flex flexDirection={"column"} gap={"5px"}>
+              <Flex gap={"10px"} flexDir={"row"} alignItems={"center"}>
+                <AtSignIcon />
+                <Text color={"ntl.400"}>{formData.address}</Text>
+              </Flex>
+              <Flex
+                gap={"10px"}
+                flexDir={"row"}
+                alignItems={"center"}
+                cursor={"pointer"}
+              >
+                <ExternalLinkIcon />
+                <Text fontSize={"18px"}>{formData.website}</Text>
+              </Flex>
+              <Flex gap={"10px"} flexDir={"row"} alignItems={"center"}>
+                <StarIcon color={"#FFD101"} />
+                <StarIcon color={"#FFD101"} />
+
+                <StarIcon color={"#FFD101"} />
+                <StarIcon color={"#FFD101"} />
+              </Flex>
+              <Text fontSize={"18px"}>Pricing: ${formData.price}</Text>
+            </Flex>
+          </Flex>
           <Text color={"ntl.400"}>{formData.description}</Text>
-          <Text color={"ntl.400"}>{formData.address}</Text>
-          <Text color={"ntl.400"}>{formData.email}</Text>
-          <Text color={"ntl.400"}> {formData.phoneNumber}</Text>
         </Flex>
-        <Flex flexDirection={"column"} gap={"5px"}>
-          {" "}
-          <Text color={"ntl.400"}>{formData.availability}</Text>
-          <Text fontSize={"18px"}>{formData.website}</Text>
-          <Text fontSize={"18px"}>Pricing: ${formData.price}</Text>
-        </Flex>
-      </Flex>
+      </>
     );
   };
   const InputInData = () => {
@@ -92,7 +143,6 @@ const ServiceContainer = ({
               </Text>
               <Input
                 placeholder={"Name"}
-                isReadOnly={editFlag}
                 value={formData.name}
                 onChange={(e) => handleInputChange(e, "name")}
               />
@@ -108,7 +158,6 @@ const ServiceContainer = ({
 
               <Input
                 placeholder={"companyName"}
-                isReadOnly={editFlag}
                 value={formData.companyName}
                 onChange={(e) => handleInputChange(e, "companyName")}
               />
@@ -122,7 +171,6 @@ const ServiceContainer = ({
               <Text w={"170px"}>Description</Text>
               <Input
                 placeholder={"description"}
-                isReadOnly={editFlag}
                 value={formData.description}
                 onChange={(e) => handleInputChange(e, "description")}
               />
@@ -137,7 +185,6 @@ const ServiceContainer = ({
 
               <Input
                 placeholder={"email"}
-                isReadOnly={editFlag}
                 value={formData.email}
                 onChange={(e) => handleInputChange(e, "email")}
               />
@@ -151,7 +198,6 @@ const ServiceContainer = ({
               <Text w={"170px"}>PhoneNumber</Text>
               <Input
                 placeholder={"phoneNumber"}
-                isReadOnly={editFlag}
                 value={formData.phoneNumber}
                 onChange={(e) => handleInputChange(e, "phoneNumber")}
               />
@@ -167,7 +213,6 @@ const ServiceContainer = ({
               <Text w={"170px"}>Address</Text>
               <Input
                 placeholder={"address"}
-                isReadOnly={editFlag}
                 value={formData.address}
                 onChange={(e) => handleInputChange(e, "address")}
               />
@@ -182,7 +227,6 @@ const ServiceContainer = ({
               <Text w={"170px"}>Availability</Text>
               <Input
                 placeholder={"availability"}
-                isReadOnly={editFlag}
                 value={formData.availability}
                 onChange={(e) => handleInputChange(e, "availability")}
               />
@@ -197,7 +241,6 @@ const ServiceContainer = ({
               <Text w={"170px"}>Price</Text>
               <Input
                 placeholder={"price"}
-                isReadOnly={editFlag}
                 value={formData.price}
                 onChange={(e) => handleInputChange(e, "price")}
               />
@@ -212,9 +255,22 @@ const ServiceContainer = ({
               <Text w={"170px"}>Website</Text>
               <Input
                 placeholder={"website"}
-                isReadOnly={editFlag}
                 value={formData.website}
                 onChange={(e) => handleInputChange(e, "website")}
+              />
+            </Flex>
+
+            <Flex
+              flex={1}
+              justifyContent={"space-between"}
+              alignItems={"center"}
+              gap={"10px"}
+            >
+              <Text w={"170px"}>Rating</Text>
+              <Input
+                placeholder={"Rating"}
+                value={"3"}
+                onChange={(e) => console.log("onchange")}
               />
             </Flex>
           </Flex>
@@ -223,7 +279,7 @@ const ServiceContainer = ({
     );
   };
   useEffect(() => {
-    console.log(formData);
+    // console.log(formData);
     console.log(id);
   }, [formData]);
   const [editFlag, setEditFlag] = useState(true);
@@ -244,6 +300,8 @@ const ServiceContainer = ({
           position={"relative"}
           right={""}
         >
+          <ApplyDiscount data={data} />
+
           <Flex
             cursor={"pointer"}
             onClick={() => {
@@ -264,7 +322,7 @@ const ServiceContainer = ({
           <Flex flex={1}>
             <Img
               objectFit={"cover"}
-              src="https://media.istockphoto.com/id/1485512746/photo/plumbers-tool-bag-on-floor-under-kitchen-sink.jpg?s=1024x1024&w=is&k=20&c=I7noVy8Sse6mrgWFUHzpI-deY2-ToGl14P8-DSwFa78="
+              src={ImgFromId(data.serviceCategoryId)}
               borderRadius={"9px"}
             />
           </Flex>
@@ -295,7 +353,22 @@ const ServiceContainer = ({
               alignItems={"center"}
               gap={"10px"}
             >
-              <Button borderRadius={"full"}>Apply Changes</Button>
+              <Button
+                borderRadius={"full"}
+                onClick={() => {
+                  console.log(formData);
+                  
+                  CallUpdateServices({ ...formData, serviceId: formData.id })
+                    .then((result) => {
+                      console.log(result);
+                    })
+                    .catch((err) => {
+                      console.log(err);
+                    });
+                }}
+              >
+                Apply Changes
+              </Button>
 
               <Flex
                 w={"min-content"}
@@ -309,7 +382,24 @@ const ServiceContainer = ({
                   cursor={"pointer"}
                   color={"white"}
                   onClick={() => {
+                    console.log("delete");
                     setEditFlag(!editFlag);
+
+                    CallDeleteService({ serviceId: id })
+                      .then((status) => {
+                        toast({
+                          status: "success",
+                          title: "Service Deleted Successfully!",
+                          duration: 3000,
+                        });
+                      })
+                      .catch((err) => {
+                        toast({
+                          status: "error",
+                          title: "Error occred",
+                          description: "Couldn't delete Service.",
+                        });
+                      });
                   }}
                 />
               </Flex>
@@ -324,11 +414,13 @@ const ServiceContainer = ({
 const RawContentManageService = () => {
   const [ServiceData, setServicesData] = useState<ServiceDataType[]>([]);
   useEffect(() => {
-    CallMyService().then((response) => {
-      setTimeout(() => {
+    setTimeout(() => {
+      CallMyService().then((response) => {
+        console.log("timer");
+        console.log(response);
         setServicesData(response);
-      }, 2000);
-    });
+      });
+    }, 2000);
   }, []);
   return (
     <Flex
@@ -358,7 +450,9 @@ const RawContentManageService = () => {
         <></>
       )}
       {ServiceData.map((data, id) => {
-        return <ServiceContainer id={data.id} data={data} />;
+        if (data != null) {
+          return <ServiceContainer id={data.id} data={data} />;
+        }
       })}
     </Flex>
   );

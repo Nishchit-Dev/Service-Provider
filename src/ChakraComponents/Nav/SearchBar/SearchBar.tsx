@@ -33,7 +33,13 @@ const SearchBar = () => {
             border={"transparent"}
             focusBorderColor="transparent"
           />
-          <Button borderRadius={"full"} w="120px" bg={"ntl.200"} m="2px 1px">
+          <Button
+            borderRadius={"full"}
+            w="120px"
+            m="4px"
+            bg={"pmy.300"}
+            _hover={{ bg: "#FFD101", opacity: "0.8" }}
+          >
             Search
           </Button>
         </Flex>

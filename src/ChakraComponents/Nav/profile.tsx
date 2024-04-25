@@ -10,7 +10,7 @@ const Profile: React.FC = () => {
         justifyContent={"center"}
         alignItems={"center"}
         gap={"10px"}
-        bg={"ntl.300"}
+        bg={"#FFD101"}
         boxShadow={"md"}
         cursor={"pointer"}
         borderRadius={"999px"}

@@ -11,18 +11,24 @@ const _theme = {
       backgroundColor: "#F7F7F7",
       fontFamily: "Poppins",
     },
+    Button: {
+      _hover: {
+        bg: "transparent",
+      },
+    },
     Text: {
       fontFamily: "Poppins",
     },
   },
-  fonts:{
-    heading:"Poppins",
-    body:"Poppins"
+  fonts: {
+    heading: "Poppins",
+    body: "Poppins",
   },
   colors: {
     pmy: {
       100: "#111111",
       200: "#6050BC",
+      300: "#FFD101",
     },
     snd: {
       100: "#23232B",
@@ -40,6 +46,9 @@ const _theme = {
     red: {
       100: "#FF6868",
       200: "#D24545",
+    },
+    green: {
+      100: "#A1DD70",
     },
   },
 };

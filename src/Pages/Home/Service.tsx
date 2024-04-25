@@ -42,6 +42,9 @@ const Services: React.FC = () => {
               backgroundSize={"250px"}
               backgroundImage={`url("/Assets/Services/Electrical.png")`}
               style={{ backgroundPositionX: "center" }}
+              onClick={()=>{
+                window.location.replace("/service")
+              }}
             ></Box>
             <Text
               textAlign={"center"}

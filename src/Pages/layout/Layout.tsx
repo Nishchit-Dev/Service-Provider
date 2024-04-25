@@ -11,7 +11,8 @@ const Wrapper = ({ child }) => {
       flex={1}
       h="max-content"
       minH={"90vh"}
-      bg="ntl.150"
+      bg="ntl.200"
+      pb={"20px"}
       borderRadius={"14px"}
       padding={"30px 25px"}
     >

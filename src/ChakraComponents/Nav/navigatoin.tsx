@@ -84,7 +84,18 @@ const routerSwitch = (input: string) => {
       return "/";
       break;
     case "Change password":
-      return "/profile/changepassword";
+      return "/profile/change-password";
+    case "Service":
+      return "/service";
+      break;
+    case "Service History":
+      return "/history";
+      break;
+    case "Checkout":
+      return "/Checkout";
+      break;
+    default:
+      return "/";
       break;
   }
 };
@@ -112,30 +123,27 @@ const SideMenuContent = () => {
         <_Text text={"My profile"} />
       </Box>
       <Box>
-        <_Text text={"Notifications"} />
+        <_Text text={"Checkout"} />
       </Box>
       <Box>
-        <_Text text={"History"} />
+        <_Text text={"Service"} />
       </Box>
       <Box>
-        <_Text text={"Billings"} />
+        <_Text text={"Service History"} />
       </Box>
       <Box>
         <_Text text={"Change password"} />
       </Box>
+    
       <Box>
-        <_Text text={"Billings"} />
+        <_Text text={"Logout"}  extra={{ color: "#FF6868", marginTop: "20px" }} />
       </Box>
-
-      <Box>
-        <_Text text={"Logout"} />
-      </Box>
-      <Box>
+      {/* <Box>
         <_Text
           text={"Delete Account"}
           extra={{ color: "#FF6868", marginTop: "20px" }}
         />
-      </Box>
+      </Box> */}
     </Box>
   );
 };
@@ -144,7 +152,7 @@ const NavComponents: React.FC<NavProps> = ({ Kids }) => {
 
   return (
     <>
-      <Center w={"100%"} p="18px 10px">
+      <Center w={"100%"} p="10px">
         <Flex flex={1} w={"100%"}>
           <Flex
             w="99%"
@@ -204,7 +212,7 @@ const VendorSideMenuContent = () => {
       case "Change password":
         return "/vendor/change-password";
         break;
-      case "History":
+      case "Bookings":
         return "/vendor/history";
         break;
       default:
@@ -227,7 +235,7 @@ const VendorSideMenuContent = () => {
   return (
     <Box padding={"20px 0px"} gap={"10px"}>
       <Box>
-        <_Text text={"Vendor"} />
+        <_Text text={"Dashboard"} />
       </Box>
       <Box>
         <_Text text={"My profile"} />
@@ -239,7 +247,7 @@ const VendorSideMenuContent = () => {
         <_Text text={"Notifications"} />
       </Box>
       <Box>
-        <_Text text={"History"} />
+        <_Text text={"Bookings"} />
       </Box>
       <Box>
         <_Text text={"Billings"} />
