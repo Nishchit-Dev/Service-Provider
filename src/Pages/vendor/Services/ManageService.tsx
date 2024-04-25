@@ -31,7 +31,7 @@ import {
   CallMyService,
   CallUpdateServices,
 } from "./api/Api.ts";
-import ApplyDiscount from "./ApplyDiscounts.tsx";
+import ApplyDiscount, { Reviews } from "./ApplyDiscounts.tsx";
 import { ImgFromId } from "../utility/categories.ts";
 
 const padding = {
@@ -300,6 +300,7 @@ const ServiceContainer = ({
           position={"relative"}
           right={""}
         >
+          <Reviews />
           <ApplyDiscount data={data} />
 
           <Flex
@@ -357,7 +358,7 @@ const ServiceContainer = ({
                 borderRadius={"full"}
                 onClick={() => {
                   console.log(formData);
-                  
+
                   CallUpdateServices({ ...formData, serviceId: formData.id })
                     .then((result) => {
                       console.log(result);

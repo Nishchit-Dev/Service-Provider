@@ -8,8 +8,7 @@ import {
   Flex,
   Text,
 } from "@chakra-ui/react";
-export const ServiceRangeSlider = () => {
-  const [data, setData] = useState({ min: 0, max: 30 });
+export const ServiceRangeSlider = ({ setData, data }) => {
   return (
     <>
       <Box w="100%">
@@ -30,7 +29,9 @@ export const ServiceRangeSlider = () => {
           w="100%"
           aria-label={["min", "max"]}
           colorScheme="pink"
-          defaultValue={[10, 30]}
+          max={4000}
+          defaultValue={[120, 2500]}
+          min={100}
         >
           <RangeSliderTrack>
             <RangeSliderFilledTrack />

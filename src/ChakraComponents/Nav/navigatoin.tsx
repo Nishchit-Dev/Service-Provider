@@ -6,14 +6,30 @@ import {
   Flex,
   IconButton,
   Text,
+  useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
 import React, { Children } from "react";
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+} from "@chakra-ui/react";
 import { Menu, MenuButton, MenuList, MenuItem } from "@chakra-ui/react";
-import { HamburgerIcon } from "@chakra-ui/icons";
+import { BellIcon, HamburgerIcon } from "@chakra-ui/icons";
 import Profile from "./profile.tsx";
 import { _Cookies, useAuth } from "../../Hooks/useAuth.ts";
 import SearchBar from "./SearchBar/SearchBar.tsx";
 import { Link } from "react-router-dom";
+import { NotificationAnimations } from "../../Pages/Animations/Notification.tsx";
+import {
+  DisableEmailNotification,
+  EnableEmailNotification,
+} from "./notificationRequest.ts";
 const NavMenu: React.FC = () => {
   const auth = useAuth().flag;
   return (
@@ -134,9 +150,12 @@ const SideMenuContent = () => {
       <Box>
         <_Text text={"Change password"} />
       </Box>
-    
+
       <Box>
-        <_Text text={"Logout"}  extra={{ color: "#FF6868", marginTop: "20px" }} />
+        <_Text
+          text={"Logout"}
+          extra={{ color: "#FF6868", marginTop: "20px" }}
+        />
       </Box>
       {/* <Box>
         <_Text
@@ -147,6 +166,80 @@ const SideMenuContent = () => {
     </Box>
   );
 };
+
+const Notification = () => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const toast = useToast({ position: "top-right" });
+  return (
+    <>
+      <Box
+        bg={"pmy.300"}
+        borderRadius={"99px"}
+        onClick={onOpen}
+        cursor={"pointer"}
+      >
+        <BellIcon m={"10px"} color={"black"} boxSize={"20px"} />
+
+        <Modal isOpen={isOpen} onClose={onClose}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Notifications Settings</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              <Text>
+                Here are your Notifications settings you can turn off/on the
+                Your Notifications Emails
+              </Text>
+              <NotificationAnimations />
+            </ModalBody>
+
+            <ModalFooter justifyContent={"center"} gap={"10px"}>
+              <Button
+                colorScheme="green"
+                onClick={() => {
+                  onClose();
+                  EnableEmailNotification();
+                  setTimeout(() => {
+                    toast({
+                      status: "success",
+                      title: "Notification update",
+                      description: "Your Notification Email is Enabled",
+                      duration: 9000,
+                      isClosable: true,
+                    });
+                  }, 1000);
+                }}
+                flex={1}
+              >
+                Enable
+              </Button>
+              <Button
+                colorScheme="red"
+                onClick={() => {
+                  onClose();
+                  DisableEmailNotification();
+                  setTimeout(() => {
+                    toast({
+                      status: "error",
+                      title: "Notification update",
+                      description: "Your Notification Email is Disabled",
+                      duration: 9000,
+                      isClosable: true,
+                    });
+                  }, 1000);
+                }}
+                flex={1}
+              >
+                Disable
+              </Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+      </Box>
+    </>
+  );
+};
+
 const NavComponents: React.FC<NavProps> = ({ Kids }) => {
   const auth = useAuth().flag;
 
@@ -169,7 +262,12 @@ const NavComponents: React.FC<NavProps> = ({ Kids }) => {
               alignItems={"center"}
             >
               <NavMenu />
-              {auth ? <Profile /> : null}
+              {auth ? (
+                <Flex flexDir={"row"} alignItems={"center"} gap={"30px"}>
+                  <Notification />
+                  <Profile />{" "}
+                </Flex>
+              ) : null}
             </Flex>
 
             <Flex m="20px 0">

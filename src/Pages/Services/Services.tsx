@@ -53,24 +53,33 @@ const ServiceContainer = ({
       [field]: value,
     });
   };
+  useEffect(() => {
+    console.log(data);
+  }, []);
+  useEffect(() => {
+    console.log(_key);
+    console.log();
+  }, [formData]);
+  const [editFlag, setEditFlag] = useState(true);
+  const [discountFlag, setDiscountFlag] = useState(false);
   const TextInData = () => {
     return (
       <Flex flexDirection={"row"} gap={"20px"}>
         <Flex flexDirection={"column"} gap={"5px"}>
           <Text fontWeight={"700"} fontSize={"20px"}>
-            {formData.name}
+            {data.name}
           </Text>
-          <Text color={"ntl.400"}>{formData.companyName}</Text>
-          <Text color={"ntl.400"}>{formData.description}</Text>
-          <Text color={"ntl.400"}>{formData.address}</Text>
-          <Text color={"ntl.400"}>{formData.email}</Text>
-          <Text color={"ntl.400"}> {formData.phoneNumber}</Text>
+          <Text color={"ntl.400"}>{data.companyName}</Text>
+          <Text color={"ntl.400"}>{data.description}</Text>
+          <Text color={"ntl.400"}>{data.address}</Text>
+          <Text color={"ntl.400"}>{data.email}</Text>
+          <Text color={"ntl.400"}> {data.phoneNumber}</Text>
         </Flex>
         <Flex flexDirection={"column"} gap={"5px"}>
           {" "}
-          <Text color={"ntl.400"}>Availability: {formData.availability}</Text>
-          <Text fontSize={"18px"}>{formData.website}</Text>
-          <Text fontSize={"18px"}>Pricing: ${formData.price}</Text>
+          <Text color={"ntl.400"}>Availability: {data.availability}</Text>
+          <Text fontSize={"18px"}>{data.website}</Text>
+          <Text fontSize={"18px"}>Pricing: ${data.price}</Text>
           <Text fontSize={"18px"}>Rating: 3/5</Text>
         </Flex>
       </Flex>
@@ -233,15 +242,10 @@ const ServiceContainer = ({
       </>
     );
   };
-  useEffect(() => {
-    console.log(_key);
-    console.log();
-  }, [formData]);
-  const [editFlag, setEditFlag] = useState(true);
-  const [discountFlag, setDiscountFlag] = useState(false);
+ 
   return (
     <>
-      <Flex flex={1}>
+      <Flex>
         {discountFlag ? (
           <Flex
             position={"absolute"}
@@ -312,8 +316,43 @@ const ServiceContainer = ({
 };
 
 const RawServiceComponent = () => {
- 
+  const [filterCategoriesOptions, setFilterCategoriesOptions] = useState([]);
+  const [FilterPrice, setFilterPrice] = useState({ min: 120, max: 4000 });
   const [data, setData] = useState([]);
+
+  const ResetFilters = () => {
+    (async () => {
+      let temp = await CallTotalServices();
+      console.log(temp);
+      setData(temp);
+    })();
+  };
+
+  const ApplyFilter = () => {
+    let filteropt = { filterCategoriesOptions };
+    let DataUsed = data;
+    if (filteropt.filterCategoriesOptions.length > 0) {
+      const filteredData = DataUsed.filter((item: ServiceDataType) => {
+        return filteropt.filterCategoriesOptions.includes(
+         item.serviceCategoryId
+        );
+      });
+      const filteredServices = filteredData.filter(
+        (service: ServiceDataType) => {
+          const price = parseInt(service.price); // Convert price to integer
+          return price >= FilterPrice.min && price <= FilterPrice.max;
+        }
+      );
+      console.log(filteredServices);
+       setData(filteredServices);
+    }
+  };
+
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
+
+
   useEffect(() => {
     (async () => {
       let temp = await CallTotalServices();
@@ -321,6 +360,10 @@ const RawServiceComponent = () => {
       setData(temp);
     })();
   }, []);
+
+  useEffect(() => {
+    console.log(filterCategoriesOptions);
+  }, [filterCategoriesOptions]);
   return (
     <Flex w="100%" flexDir={"column"} padding={"0 40px"} gap={"20px"}>
       <Flex flexDir={"column"}>
@@ -334,10 +377,18 @@ const RawServiceComponent = () => {
       </Flex>
       <Flex flexDir={"row"}>
         <Box>
-          <ServiceCategories />
+          <ServiceCategories
+            setFilterCategoriesOptions={setFilterCategoriesOptions}
+            filterCategoriesOptions={filterCategoriesOptions}
+            ResetFilters={ResetFilters}
+            ApplyFilter={ApplyFilter}
+            setFilterPrice={setFilterPrice}
+            FilterPrice={FilterPrice}
+          />
         </Box>
         <Flex gap={"10px"} flexDir={"column"}>
           {data.map((data, id) => {
+            console.log(data)
             return <ServiceContainer id={data.id} data={data} _key={id} />;
           })}
         </Flex>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { ReactHTML, useEffect, useState } from "react";
 import Layout from "../../layout/Layout.tsx";
 import {
   Box,
@@ -9,6 +9,8 @@ import {
   Collapse,
   useDisclosure,
   Button,
+  useToast,
+  Textarea,
 } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 import {
@@ -20,6 +22,15 @@ import {
   StarIcon,
   TimeIcon,
 } from "@chakra-ui/icons";
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+} from "@chakra-ui/react";
 import axios, { Axios } from "axios";
 import { EmptyAnimations } from "../../Animations/Empty.tsx";
 interface ServiceDataType {
@@ -39,7 +50,7 @@ interface ServiceDataType {
   time: string;
   website: string;
   _v: number;
-  startDate:string;
+  startDate: string;
 }
 const StaticData = [
   {
@@ -240,17 +251,19 @@ const HistoryContainer = ({
             color={"black"}
             w={"300px"}
           >
-            <Text fontSize={"20px"} fontWeight={"500"} >
-              Booking Date: {new Date(data?.startDate).getMonth()}/{new Date(data?.startDate).getDate()}/{new Date(data?.startDate).getFullYear()}
+            <Text fontSize={"20px"} fontWeight={"500"}>
+              Booking Date: {new Date(data?.startDate).getMonth()}/
+              {new Date(data?.startDate).getDate()}/
+              {new Date(data?.startDate).getFullYear()}
             </Text>
-            <Text fontSize={"20px"} fontWeight={"500"} >
+            <Text fontSize={"20px"} fontWeight={"500"}>
               Time: {data?.time}
             </Text>
           </Flex>
         </Flex>
 
         <Collapse in={isOpen} animateOpacity>
-          <Flex p="10px" flex={1}>
+          <Flex p="10px" flex={1} justifyContent={"space-between"}>
             <Flex gap={"30px"}>
               <Flex flexDirection={"column"} gap={"5px"}>
                 <Text fontWeight={"700"} fontSize={"20px"}>
@@ -298,9 +311,206 @@ const HistoryContainer = ({
                 <Text fontSize={"18px"}>Pricing Mentioned: ${data?.price}</Text>
               </Flex>
             </Flex>
+            <Flex>
+              <Rating />
+            </Flex>
           </Flex>
         </Collapse>
       </Flex>
+    </>
+  );
+};
+
+const Rating = () => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [rating, setRating] = useState(0);
+  const toast = useToast({ position: "top-right" });
+  const [comment, setComment] = useState("");
+  const Star = () => {
+    switch (rating) {
+      case 1:
+        return (
+          <Flex justifyContent={"center"} flex={1} gap={"10px"}>
+            <StarIcon color={"#FFD101"} boxSize={"35px"} />
+          </Flex>
+        );
+        break;
+      case 2:
+        return (
+          <Flex justifyContent={"center"} flex={1} gap={"10px"}>
+            <StarIcon color={"#FFD101"} boxSize={"35px"} />
+            <StarIcon color={"#FFD101"} boxSize={"35px"} />
+          </Flex>
+        );
+        break;
+      case 3:
+        return (
+          <Flex justifyContent={"center"} flex={1} gap={"10px"}>
+            <StarIcon color={"#FFD101"} boxSize={"35px"} />
+            <StarIcon color={"#FFD101"} boxSize={"35px"} />
+            <StarIcon color={"#FFD101"} boxSize={"35px"} />
+          </Flex>
+        );
+        break;
+      case 4:
+        return (
+          <Flex justifyContent={"center"} flex={1} gap={"10px"}>
+            <StarIcon color={"#FFD101"} boxSize={"35px"} />
+            <StarIcon color={"#FFD101"} boxSize={"35px"} />
+            <StarIcon color={"#FFD101"} boxSize={"35px"} />
+            <StarIcon color={"#FFD101"} boxSize={"35px"} />
+          </Flex>
+        );
+        break;
+      case 5:
+        return (
+          <Flex justifyContent={"center"} flex={1} gap={"10px"}>
+            <StarIcon color={"#FFD101"} boxSize={"35px"} />
+            <StarIcon color={"#FFD101"} boxSize={"35px"} />
+            <StarIcon color={"#FFD101"} boxSize={"35px"} />
+            <StarIcon color={"#FFD101"} boxSize={"35px"} />
+            <StarIcon color={"#FFD101"} boxSize={"35px"} />
+          </Flex>
+        );
+        break;
+      default:
+        return (
+          <Flex justifyContent={"center"} flex={1} gap={"10px"}>
+            <StarIcon color={"#FFD101"} boxSize={"35px"} />
+          </Flex>
+        );
+        break;
+    }
+  };
+
+  return (
+    <>
+      <Button onClick={onOpen}>Rate Service</Button>
+
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Rating</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Text>
+              We'd love to hear about your experience! Please take a moment to
+              rate our service:
+            </Text>
+            <Box my={"10px"}>{Star()}</Box>
+            <Flex gap={"10px"} justifyContent={"center"} mt={"20px"}>
+              <Flex
+                justifyContent={"center"}
+                alignItems={"center"}
+                gap={"3px"}
+                bg={"snd.400"}
+                py={"5px"}
+                cursor={"pointer"}
+                px={"10px"}
+                borderRadius={"5px"}
+                onClick={() => {
+                  setRating(1);
+                }}
+              >
+                <Text>1</Text>
+                <StarIcon color={"#FFD101"} />
+              </Flex>
+              <Flex
+                justifyContent={"center"}
+                alignItems={"center"}
+                gap={"3px"}
+                bg={"snd.400"}
+                py={"5px"}
+                cursor={"pointer"}
+                px={"10px"}
+                borderRadius={"5px"}
+                onClick={() => {
+                  setRating(2);
+                }}
+              >
+                <Text>2</Text>
+                <StarIcon color={"#FFD101"} />
+              </Flex>
+              <Flex
+                justifyContent={"center"}
+                alignItems={"center"}
+                gap={"3px"}
+                bg={"snd.400"}
+                py={"5px"}
+                px={"10px"}
+                cursor={"pointer"}
+                borderRadius={"5px"}
+                onClick={() => {
+                  setRating(3);
+                }}
+              >
+                <Text>3</Text>
+                <StarIcon color={"#FFD101"} />
+              </Flex>
+              <Flex
+                justifyContent={"center"}
+                alignItems={"center"}
+                gap={"3px"}
+                bg={"snd.400"}
+                cursor={"pointer"}
+                py={"5px"}
+                px={"10px"}
+                borderRadius={"5px"}
+                onClick={() => {
+                  setRating(4);
+                }}
+              >
+                <Text>4</Text>
+                <StarIcon color={"#FFD101"} />
+              </Flex>
+              <Flex
+                justifyContent={"center"}
+                alignItems={"center"}
+                gap={"3px"}
+                bg={"snd.400"}
+                cursor={"pointer"}
+                py={"5px"}
+                px={"10px"}
+                borderRadius={"5px"}
+                onClick={() => {
+                  setRating(5);
+                }}
+              >
+                <Text>5</Text>
+                <StarIcon color={"#FFD101"} />
+              </Flex>
+            </Flex>
+            <Flex mt={"10px"}>
+              <Textarea
+                placeholder="your feedback"
+                onChange={(e) => {
+                  setComment(e.target.value);
+                }}
+                value={comment}
+              />
+            </Flex>
+            {/* <NotificationAnimations /> */}
+          </ModalBody>
+
+          <ModalFooter justifyContent={"center"} gap={"10px"}>
+            <Button
+              colorScheme="green"
+              flex={1}
+              onClick={() => {
+                onClose();
+                setTimeout(() => {
+                  toast({
+                    status: "success",
+                    title: "Rating Update Successfully!!",
+                  });
+                }, 1000);
+              }}
+            >
+              Rate
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </>
   );
 };
@@ -364,7 +574,7 @@ const Accepted = ({
           </Flex>
         </Flex>
         <Collapse in={isOpen} animateOpacity>
-          <Flex p="10px" flex={1}>
+          <Flex p="10px" flex={1} justifyContent={"space-between"}>
             <Flex gap={"30px"}>
               <Flex flexDirection={"column"} gap={"5px"}>
                 <Text fontWeight={"700"} fontSize={"20px"}>
@@ -459,8 +669,8 @@ export const RawContentHistory = () => {
             Accept
           </Text>
           <Divider />
-        </Box> */}
-        {/* <Box>
+        </Box>
+        <Box>
           {AcceptedArray?.map((ele, index) => {
             return <Accepted data={ele} setAcceptedArray={setAcceptedArray} />;
           })}

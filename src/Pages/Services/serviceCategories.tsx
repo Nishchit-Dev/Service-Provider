@@ -9,11 +9,11 @@ import {
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import services from "../vendor/utility/categories.ts";
 import { ServiceRangeSlider } from "./ServiceRange.tsx";
 import { ServiceRating } from "./ServiceRating.tsx";
-const ServiceCategoriesCheckBox = () => {
+const ServiceCategoriesCheckBox = ({ setFilterCate }) => {
   return (
     <>
       <Flex flex={1} padding={"0px 10px"}>
@@ -23,7 +23,28 @@ const ServiceCategoriesCheckBox = () => {
               return (
                 <Checkbox
                   value={ele.name}
-                  onChange={() => {
+                  onChange={(e) => {
+                    console.log(e.target.checked);
+                    if (e.target.checked) {
+                      setFilterCate((e) => {
+                        let temp = e;
+                        temp.push(ele.id);
+                        console.log(temp);
+                        return temp;
+                      });
+                    } else {
+                      setFilterCate((e) => {
+                        let temp = e;
+                        let finalData = temp.filter((id: string) => {
+                          if (id != ele.id) {
+                            return id;
+                          }
+                        });
+                        console.log(temp);
+                        return finalData;
+                      });
+                    }
+
                     console.log(ele.name);
                   }}
                   key={i}
@@ -38,11 +59,19 @@ const ServiceCategoriesCheckBox = () => {
     </>
   );
 };
-export const ServiceCategories = () => {
+export const ServiceCategories = ({
+  setFilterCategoriesOptions,
+  filterCategoriesOptions,
+  ResetFilters,
+  ApplyFilter,
+  FilterPrice,
+  setFilterPrice
+}) => {
   const { isOpen: categoriesIsOpen, onToggle: categoriesOnToggle } =
     useDisclosure();
   const { isOpen: rangeIsOpen, onToggle: rangeOnToggle } = useDisclosure();
   const { isOpen: ratingIsOpen, onToggle: ratingOnToggle } = useDisclosure();
+
   return (
     <>
       <Box
@@ -78,7 +107,9 @@ export const ServiceCategories = () => {
               </Button>
             </Flex>
             <Collapse in={categoriesIsOpen}>
-              <ServiceCategoriesCheckBox />
+              <ServiceCategoriesCheckBox
+                setFilterCate={setFilterCategoriesOptions}
+              />
             </Collapse>
           </Flex>
           <Flex
@@ -107,7 +138,10 @@ export const ServiceCategories = () => {
             </Flex>
             <Collapse in={rangeIsOpen} style={{ width: "100%" }}>
               <Box>
-                <ServiceRangeSlider />
+                <ServiceRangeSlider
+                  setData={setFilterPrice}
+                  data={FilterPrice}
+                />
               </Box>
             </Collapse>
           </Flex>
@@ -145,10 +179,17 @@ export const ServiceCategories = () => {
             w={"100%"}
             bg={"#FFD101"}
             _hover={{ bg: "#FFD101", opacity: "0.8" }}
+            onClick={ApplyFilter}
           >
             Apply Filter
           </Button>
-          <Button w={"100%"} bg={"snd.100"} color={"whitesmoke"} _hover={{ opacity: "0.8" }}>
+          <Button
+            w={"100%"}
+            bg={"snd.100"}
+            color={"whitesmoke"}
+            _hover={{ opacity: "0.8" }}
+            onClick={ResetFilters}
+          >
             Rest Filters
           </Button>
         </Flex>

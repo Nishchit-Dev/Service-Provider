@@ -29,6 +29,7 @@ import {
   Box,
   ModalCloseButton,
 } from "@chakra-ui/react";
+import { StarIcon } from "@chakra-ui/icons";
 
 const DiscountTags = ({ setDiscount }) => {
   const discountData = [
@@ -163,6 +164,96 @@ const ApplyDiscount = ({ data }) => {
               >
                 Apply
               </Button>
+              <Button
+                colorScheme="blue"
+                mr={3}
+                onClick={onClose}
+                borderRadius={"full"}
+              >
+                Close
+              </Button>
+            </Flex>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </>
+  );
+};
+export const Reviews = () => {
+  const { isOpen, onClose, onOpen } = useDisclosure();
+
+  return (
+    <>
+      <Button
+        borderRadius={"full"}
+        // color={"white"}
+        onClick={onOpen}
+      >
+        Review & Rating
+      </Button>
+
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Review and Ratings</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Flex flexDir={"column"} gap={"10px"}>
+              <Flex
+                bg="snd.400"
+                flex={1}
+                padding={"10px"}
+                borderRadius={"9px"}
+                flexDir={"column"}
+              >
+                <Flex flexDir={"row"} gap={"20px"}>
+                  <StarIcon color={"#FFD101"} />
+                  <StarIcon color={"#FFD101"} />
+                  <StarIcon color={"#FFD101"} />
+                  <StarIcon color={"#FFD101"} />
+                </Flex>
+                <Flex mt={"10px"}>
+                  <Text>This is my rating....</Text>
+                </Flex>
+              </Flex>
+              <Flex
+                bg="snd.400"
+                flex={1}
+                padding={"10px"}
+                borderRadius={"9px"}
+                flexDir={"column"}
+              >
+                <Flex flexDir={"row"} gap={"20px"}>
+                  <StarIcon color={"#FFD101"} />
+                  <StarIcon color={"#FFD101"} />
+                  <StarIcon color={"#FFD101"} />
+                </Flex>
+                <Flex mt={"10px"}>
+                  <Text>This is Service is Awesome....</Text>
+                </Flex>
+              </Flex>
+              <Flex
+                bg="snd.400"
+                flex={1}
+                padding={"10px"}
+                borderRadius={"9px"}
+                flexDir={"column"}
+              >
+                <Flex flexDir={"row"} gap={"20px"}>
+                  <StarIcon color={"#FFD101"} />
+                  <StarIcon color={"#FFD101"} />
+                  <StarIcon color={"#FFD101"} />
+                  <StarIcon color={"#FFD101"} />
+                </Flex>
+                <Flex mt={"10px"}>
+                  <Text>Loved the Service from the service provider...</Text>
+                </Flex>
+              </Flex>
+            </Flex>
+          </ModalBody>
+
+          <ModalFooter>
+            <Flex flex={1} justifyContent={"end"}>
               <Button
                 colorScheme="blue"
                 mr={3}
